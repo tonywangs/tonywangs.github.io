@@ -1,11 +1,13 @@
 ---
 ---
 
-## 🤷 What I do
+## 👋 A little about myself 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+📣 I'm a high school student passionate about emerging technologies, modern medicine, entrepreneurship, and youth advocacy.
 
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+💙 I care about providing opportunities to others, and I am exploring a variety of different fields. I am currently researching in the fields of oncology and bioinformatics. 
+
+🛠 I use my design, language, programming, and leadership skills to help others and create positive change in the world! 
 
 ## 🦕 What I've done before
 
@@ -19,8 +21,9 @@ Sit amet tellus cras adipiscing enim eu turpis egestas pretium. Ipsum faucibus v
 
 Wanna chat? Feel free to reach out!
 
-- Source code: [@katmh/point-theme](http://github.com/katmh/point-theme)
-- [Issues](https://github.com/katmh/point-theme/issues)
+- LinkedIn: [@tony-wang-100](https://www.linkedin.com/in/tony-wang-100/)
+- Instagram: [@tony_mushroom_](https://www.instagram.com/tony_mushroom_/)
+- Github: [@tonywangs](https://github.com/katmh/tonywangs)
 
 ## 📠 Fun facts
 
