@@ -13,7 +13,7 @@ const highlightcolor = "#111";
 
 // Body properties
 const bodyfontweight = 300;
-const bodyfontsize = "12pt";
+const bodyfontsize = "16pt";
 const backgroundcolor = "#fff";
 
 // Link properties
