@@ -1,5 +1,5 @@
 // Initialize font properties
-const fontname = "Ubuntu";
+const fontname = "Inter";
 const fontweights = [300, 400]
 
 // Color properties
@@ -13,7 +13,7 @@ const highlightcolor = "#111";
 
 // Body properties
 const bodyfontweight = 300;
-const bodyfontsize = "16pt";
+const bodyfontsize = "14pt";
 const backgroundcolor = "#fff";
 
 // Link properties
@@ -36,7 +36,7 @@ const headercolor = accentcolor;
 const headerfontsize = "18pt";
 const headerdecoration = "none";
 const namecolor = highlightcolor;
-const namefontsize = "23pt";
+const namefontsize = "20pt";
 
 
 // Publication properties
