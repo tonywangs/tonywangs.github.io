@@ -1,0 +1,631 @@
+@import url(fontawesome-all.min.css);
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap');
+
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --text-primary: #ffffff;
+  --text-secondary: #c0c0c0;
+  --accent-primary: #64ffda;
+  --accent-secondary: #ff64da;
+  --transition: all 0.3s ease;
+  --font-mono: 'JetBrains Mono', Consolas, Monaco, monospace;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: center;
+  margin-top: 1.5%;
+  padding-left: 5%;
+  padding-right: 5%;
+  line-height: 1.6;
+}
+
+.container {
+  display: flex;
+  max-width: 1200px;
+  width: 100%;
+  gap: 2rem;
+}
+
+#sidebar {
+  position: sticky;
+  top: 50%;
+  transform: translate(-30px, -50%);
+  align-self: flex-start;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  width: 15%;
+  max-width: 200px;
+  margin-right: 3%;
+  background-color: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--accent-primary);
+  box-shadow: 0 0 20px rgba(100, 255, 218, 0.1);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+#sidebar.visible {
+  transform: translate(0, -50%);
+  opacity: 1;
+}
+
+#sidebar ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+#sidebar ul li {
+  margin: 1rem 0;
+}
+
+#sidebar ul li a {
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#sidebar ul li a:hover {
+  color: var(--accent-primary);
+  transform: translateX(5px);
+}
+
+.menu-content {
+  display: none;
+  margin-left: 1rem;
+  padding-left: 0.5rem;
+  border-left: 1px dashed var(--accent-primary);
+  opacity: 0.8;
+}
+
+.menu-content a {
+  font-size: 0.9rem;
+  padding: 0.3rem 0;
+  opacity: 0.8;
+  transition: var(--transition);
+}
+
+.menu-content a:hover {
+  color: var(--accent-secondary);
+  transform: translateX(5px);
+  opacity: 1;
+}
+
+.menu-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0;
+}
+
+.menu-btn i {
+  font-size: 0.9rem;
+  transition: transform 0.3s ease;
+}
+
+.menu.toggled .menu-btn i {
+  transform: rotate(90deg);
+}
+
+/* Remove the branch lines since we're using terminal-style tree view */
+.branch::before,
+.branch::after,
+.branch-end::before,
+.branch-end::after {
+  display: none;
+}
+
+.content {
+  flex: 1;
+  background-color: var(--bg-secondary);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--accent-primary);
+  box-shadow: 0 0 20px rgba(100, 255, 218, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add subtle scanline effect */
+.content::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(
+    transparent 50%,
+    rgba(100, 255, 218, 0.02) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+}
+
+/* Add moving scanline */
+.content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: linear-gradient(
+    transparent,
+    rgba(100, 255, 218, 0.1),
+    transparent
+  );
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+}
+
+#nameContent::after {
+  content: '█';
+  display: inline-block;
+  color: var(--accent-primary);
+  animation: blink 1s step-end infinite;
+  margin-left: 0.2rem;
+}
+
+/* Style command outputs with a subtle indent and different color */
+#dateContent, #formerlyContent, #currentlyContent {
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+#dateContent::before, #formerlyContent::before, #currentlyContent::before {
+  content: '>';
+  position: absolute;
+  left: 0.5rem;
+  color: var(--accent-secondary);
+  opacity: 0.7;
+}
+
+/* Add hover effect to links */
+a {
+  position: relative;
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: var(--transition);
+  opacity: 0.85;
+}
+
+a:hover {
+  color: var(--accent-secondary);
+  opacity: 1;
+}
+
+a:hover::before {
+  content: '${';
+  position: absolute;
+  left: -1.2em;
+  color: var(--accent-secondary);
+  opacity: 0.7;
+}
+
+a:hover::after {
+  content: '}';
+  position: absolute;
+  right: -0.8em;
+  color: var(--accent-secondary);
+  opacity: 0.7;
+}
+
+/* Add matrix-like effect to the GitHub chart container */
+#github-chart {
+  position: relative;
+  filter: contrast(120%) brightness(80%) invert(92%) hue-rotate(180deg);
+  background-color: transparent;
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+.big-name {
+  position: relative;
+  margin-top: 0.5rem;
+}
+
+h1 {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 3.5rem;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+}
+
+h1::before {
+  content: '[user@tony-wang ~]$ echo $NAME';
+  display: block;
+  font-size: 1rem;
+  color: var(--accent-primary);
+  margin-bottom: 0.5rem;
+  -webkit-text-fill-color: var(--accent-primary);
+}
+
+#nameContent {
+  position: relative;
+  padding-left: 1rem;
+}
+
+#nameContent::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  color: var(--accent-secondary);
+}
+
+p {
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  font-weight: 300;
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+  letter-spacing: -0.02em;
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--accent-secondary);
+  transition: var(--transition);
+}
+
+a:hover::after {
+  width: 100%;
+}
+
+.p-body {
+  margin-top: 1rem;
+}
+
+#dateHeader, #formerlyHeader, #currentlyHeader, #codingHeader {
+  color: var(--accent-primary);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  margin-bottom: 0.5rem;
+}
+
+#dateContent, #formerlyContent, #currentlyContent {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: var(--transition);
+}
+
+.scramble {
+  color: var(--accent-primary);
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  
+  #sidebar {
+    width: 100%;
+    max-width: none;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .content {
+    padding: 1.5rem;
+  }
+  
+  h1 {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  p {
+    font-size: 1rem;
+  }
+}
+
+.border-div {
+   background-color: #FFFFFF;  /* Pure white */
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: left;
+   margin-top: auto;
+   padding-top: 0px;
+   padding-bottom: 100px;
+   /* padding: 10px 20px 20px;  */
+   max-width: 100%; /* Ensure it doesn't exceed the content width */
+}
+
+h3 {
+   font-family: "Source Sans Pro", sans-serif;
+   color: #2D1B69;  /* Deep purple */
+   font-weight: 200;
+   font-size: 1.9rem;
+   line-height: 60px;
+   margin-bottom: 5px;
+   margin-top: 5px;
+}
+
+.p-padding {
+   padding-bottom: 2px;
+}
+
+.big-name {
+   display: flex;
+}
+
+p.counter-text {
+   font-family: 'Didact Gothic', sans-serif;
+   font-size: 12px;
+   font-weight: 500;
+   color: #1A1A1A;  /* Near black */
+   margin-bottom: 1px;
+}
+
+a.counter {
+   all: initial;
+   padding-top: 10px;
+   margin-left: 0px;
+   padding-bottom: 60px;
+}
+
+div.footer {
+   margin-top: 10px;
+}
+
+a:link { text-decoration: none; }
+
+a:visited { text-decoration: none; }
+
+a:active { text-decoration: none; }
+
+.slp {
+   background-color: #FFFFFF;  /* Pure white */
+   margin-bottom: 10%;
+   display: flex;
+   flex-direction: column;
+}
+
+#nameHeader {
+   /* Keep text normally sized, just invisible at first */
+   opacity: 0;
+   transition: opacity 0.8s ease;
+ }
+  #nameContent {
+   opacity: 0;
+   transform: translateY(-20px);
+   transition: opacity 0.8s ease, transform 0.8s ease;
+ }
+
+#visitor-counter {
+   opacity: 0;                     /* invisible initially */
+   transform: translateY(-20px);   /* slide it up initially */
+   transition: opacity 0.8s ease, transform 0.8s ease;
+ }
+
+#readingHeader, #goodreadsLine {
+   opacity: 0;                     /* invisible initially */
+   transition: opacity 0.8s ease;
+ }
+
+#readingList {
+   opacity: 0;                     /* invisible initially */
+   transform: translateY(-20px);   /* slide it up initially */
+   transition: opacity 0.8s ease, transform 0.8s ease;
+ }
+
+html, body {
+   height: 80%;
+   margin: 0px;
+   padding: 0;
+}
+
+/* FOR THE PROJECTS PAGE */
+
+.project-post {
+   margin-bottom: 30px;
+   margin-top: 30px;
+   padding-top: 20px;
+   border-top: 1px solid #2D1B69;  /* Deep purple border */
+}
+
+.project-title {
+   font-family: "Source Sans Pro", sans-serif;
+   color: #2D1B69;  /* Deep purple */
+   font-weight: 200;
+   font-size: 1.5rem;
+   margin-bottom: 5px;
+}
+
+.project-date {
+   font-family: 'Didact Gothic', sans-serif;
+   color: #1A1A1A;  /* Near black */
+   font-style: italic;
+   font-size: 1rem;
+   margin-bottom: 10px;
+}
+
+.project-description {
+   font-family: 'Didact Gothic', sans-serif;
+   color: #1A1A1A;  /* Near black */
+   font-size: 1.2rem;
+   margin-bottom: 15px;
+}
+
+.project-links {
+   display: flex;
+   gap: 10px;
+   margin-left: 5px;
+}
+.project-link {
+   font-family: 'Didact Gothic', sans-serif;
+   text-decoration: none;
+   margin-bottom: 10px;
+   color: #1A1A1A;  /* Near black */
+   background-color: #F5F5F5;  /* Light grey */
+   padding: 8px 12px;
+   border-radius: 5px;
+   transition: all 0.3s ease;
+   display: inline-block;
+   border: 1px solid #E0E0E0;  /* Subtle border */
+}
+
+.project-link:hover {
+   background-color: #2D1B69;  /* Deep purple on hover */
+   color: #FFFFFF;  /* White text on hover */
+   text-decoration: none;
+   transform: translateY(-2px);
+   box-shadow: 0 4px 8px rgba(45, 27, 105, 0.1);  /* Purple-tinted shadow */
+   border-color: #2D1B69;  /* Purple border on hover */
+}
+
+.project-link:hover {
+   text-decoration: underline;
+}
+
+.scramble-empty {
+ display: inline-block;
+ opacity: 0;
+ width: 0.5em;
+}
+
+@keyframes fadeIn {
+ 0% {
+   opacity: 0;
+   transform: translateY(5px);
+ }
+ 100% {
+   opacity: 1;
+   transform: translateY(0);
+ }
+}
+
+/* Add styles for content reveal */
+.p-body p {
+ will-change: transform, opacity;
+}
+
+/* Hide by default so they're invisible before animating in */
+#dateContent, #formerlyContent, #currentlyContent {
+   opacity: 0;
+   transform: translateY(-20px);
+   transition: opacity 0.8s ease, transform 0.8s ease;
+ }
+ /* Hide the headers too, so you can scramble them in */
+#dateHeader, #formerlyHeader, #currentlyHeader {
+   opacity: 0;
+   transition: opacity 0.8s ease;
+}
+
+#nameHeader {
+   /* Keep text normally sized, just invisible at first */
+   opacity: 0;
+   transition: opacity 0.8s ease;
+ }
+  #nameContent {
+   opacity: 0;
+   transform: translateY(-20px);
+   transition: opacity 0.8s ease, transform 0.8s ease;
+ }
+
+#github-chart {
+   opacity: 0;                     /* invisible initially */
+   transform: translateY(-20px);   /* slide it up initially */
+   transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+#visitor-counter {
+   opacity: 0;                     /* invisible initially */
+   transform: translateY(-20px);   /* slide it up initially */
+   transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+#readingHeader, #goodreadsLine {
+   opacity: 0;                     /* invisible initially */
+   transition: opacity 0.8s ease;
+}
+
+#readingList {
+   opacity: 0;                     /* invisible initially */
+   transform: translateY(-20px);   /* slide it up initially */
+   transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.copyright {
+   margin-top: 2rem;
+   text-align: center;
+   opacity: 0;
+   transform: translateY(20px);
+   transition: var(--transition);
+}
+
+.copyright p {
+   font-size: 0.8rem;
+   color: var(--text-secondary);
+   opacity: 0.7;
+}
+
+/* Update the font for the date content */
+#time {
+  font-family: var(--font-mono);
+}
+
+/* Make the command prompts (>) more terminal-like */
+#dateHeader b, #formerlyHeader b, #currentlyHeader b, #codingHeader b {
+  color: var(--accent-primary);
+  font-weight: normal;
+}
+
+/* Style italics in currently section to look more like terminal output */
+#currentlyContent i {
+  color: var(--accent-secondary);
+  font-style: normal;
+  opacity: 0.9;
+}
+
+#codingHeader {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  margin-bottom: 0.5rem;
+}

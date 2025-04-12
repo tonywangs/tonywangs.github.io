@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="images/teal-slash-favicon.png">
+  <title>tony wang</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <div id="sidebar">
+      <ul>
+        <li class="menu">
+          <a href="./index.html" class="menu-btn"><i class="fas fa-terminal"></i> ~</a>
+        </li>
+        <li class="menu">
+          <a href="javascript:void(0)" class="menu-btn"><i class="fas fa-chevron-right"></i> ./pages</a>
+          <div class="menu-content">
+            <a href="./reading.html" class="branch">└── reading.md</a>
+            <a href="./writing.html" class="branch-end">└── writing.md</a>
+          </div>
+        </li>
+        <li class="menu">
+          <a href="javascript:void(0)" class="menu-btn"><i class="fas fa-chevron-right"></i> ./links</a>
+          <div class="menu-content">
+            <a href="https://github.com/tonywangs" class="branch" target="_blank" rel="noopener noreferrer">└── github.sh</a>
+            <a href="https://www.linkedin.com/in/tony-wang-/" class="branch" target="_blank" rel="noopener noreferrer">└── linkedin.json</a>
+            <a href="https://twitter.com/TonyW__" class="branch" target="_blank" rel="noopener noreferrer">└── twitter.js</a>
+            <a href="https://metax.substack.com/" class="branch-end" target="_blank" rel="noopener noreferrer">└── substack.txt</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="content">
+      <div class="big-name">
+        <h1><b>tony wang</b></h1>
+      </div>
+      <p class="p-padding"><b>studying <a href="https://github.com/tonywangs">cs</a> + <a href="https://sumo.stanford.edu/proco/">psych</a> @ stanford</b></p>
+      
+        <div class="p-body">
+            <h3 id = "readingHeader"><b>writing</b></h3>
+            
+            <div id="readingList">
+            <hr style="border: 0; height: 1px; background-color: #563D25; margin: 20px 0;">
+              <br>
+
+                <p><i>elegy after the wildfire</i> | <a href="https://terrorhousemag.com/elegy/" target="_blank">terror house magazine</a></p>
+                <p><i>parturition</i> | <a href="https://terrorhousemag.com/elegy/" target="_blank">terror house magazine</a></p>
+                <p><i>astray</i> | <a href="https://sourcherrymag.com/post/692333194288267264/astray-by-tony-wang-hehim-i-want-to-stand-in" target="_blank">sour cherry magazine</a></p>
+                <p><i>grandmother</i> | <a href="https://lighthousemag.squarespace.com/issue-iii/grandmother" target="_blank">the lighthouse magazine</a></p>
+                <p><i>childhood dreams</i> | <a href="http://teenink.com/poetry/haiku/article/1163353/Childhood-Dreams" target="_blank">teen ink</a></p>
+                <p><i>sea sounds</i> | <a href="https://smple.io/posts/r9CYDrue" target="_blank">smple media</a></p>
+                <p><i>dreams in astral bodies</i> | <a href="https://www.kalw.org/show/bay-poets/2022-04-18/dreams-in-astral-bodies-by-poet-tony-wang" target="_blank">kalw 91.7 fm radio</a></p>
+                <p><i>diverge</i> | <a href="https://eunoiareview.wordpress.com/2022/12/21/diverge/" target="_blank">the eunoia review</a> and <a href="https://bonixxnina.wordpress.com/2022/12/20/diverge/" target="_blank">kenya on track</a></p>
+
+              <br>
+              
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Include TextScramble if not already included -->
+<script src="assets/js/textScramble.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 1) The existing menu button toggle code:
+    const menuBtns = document.querySelectorAll('.menu-btn');
+    menuBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const menuContent = this.nextElementSibling;
+        if (menuContent) {
+          menuContent.style.display = 
+            menuContent.style.display === 'block' ? 'none' : 'block';
+        }
+        const menu = this.closest('.menu');
+        if (menu) {
+          menu.classList.toggle('toggled');
+        }
+      });
+    });
+
+    // 2) The new reading-page animation logic
+    const readingHeader = document.getElementById('readingHeader');
+    const goodreadsLine = document.getElementById('goodreadsLine');
+    const readingList = document.getElementById('readingList');
+
+    // Helper to scramble text in an element:
+    function scrambleText(el) {
+      el.style.opacity = '1';
+      const fx = new TextScramble(el);
+      fx.setText(el.textContent);
+    }
+
+    // Animate in sequence
+    let delay = 1000; // Start after 1s or 0 if you want immediate
+
+    // (a) Decrypt "reading"
+    setTimeout(() => {
+      scrambleText(readingHeader);
+    }, delay);
+    delay += 700; // wait 0.7s
+
+    // (b) Decrypt "add me on goodreads..."
+    setTimeout(() => {
+      scrambleText(goodreadsLine);
+    }, delay);
+    delay += 1000;
+
+    // (c) Slide in the reading list
+    setTimeout(() => {
+      readingList.style.opacity = '1';
+      readingList.style.transform = 'translateY(0)';
+    }, delay);
+    delay += 800;
+
+    // Slide in the side bar 
+    setTimeout(() => {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.style.opacity = '1';
+      sidebar.style.transform = 'translateX(0)';
+    }, delay);
+    delay += 800;
+  });
+</script>
+
+</body>
+</html>
