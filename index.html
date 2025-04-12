@@ -31,6 +31,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet">
   </head>
   <body>
+
+    <div id="bg-grid" aria-hidden="true">
+      <!-- 25 cells for the 5×5 grid -->
+      <div></div><div></div><div></div><div></div><div></div>
+      <div></div><div></div><div></div><div></div><div></div>
+      <div></div><div></div><div></div><div></div><div></div>
+      <div></div><div></div><div></div><div></div><div></div>
+      <div></div><div></div><div></div><div></div><div></div>
+    </div>
+
     <div class="container pt-5">
         <div class="row justify-content-center">
             <div class="col-md-8 pt-5">
@@ -76,6 +86,73 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="assets/style-2.js"></script>
+
+
+
+
+
+    <script>
+      // Force rainbow mode to be true
+      window.rainbowMode = true;
+    
+      const grid = document.getElementById('bg-grid')
+      const [ rows, columns ] = [ 5, 5 ]
+    
+      let lastHovered = -1
+      let mouseDown = false
+      let lastHue = 0
+      const prevDown = {}
+    
+      const render = (event) => {
+        const [ x, y ] = [ event.clientX, event.clientY ]
+        // figure out which grid cell
+        const row = Math.floor(y * rows / window.innerHeight)
+        const column = Math.floor(x * columns / window.innerWidth)
+        const cellIndex = (row >= 0 && row < rows && column >= 0 && column < columns)
+          ? (row * columns + column)
+          : -1
+    
+        if (cellIndex >= 0) {
+          const hovered = grid.children[cellIndex]
+    
+          // only change color the first time we enter a cell since last click
+          if (!prevDown[cellIndex] && window.rainbowMode) {
+            const hue = (lastHue + 12 + Math.floor(Math.random() * 16)) % 360
+            hovered.style.setProperty('--click-bg', `hsl(${hue}, 100%, 50%, 0.5)`)
+            lastHue = hue
+          }
+    
+          hovered.classList.add('hovered')
+          hovered.classList.toggle('clicked', window.rainbowMode)
+          hovered.classList.toggle(
+            'hovered-fast-trans',
+            !prevDown[cellIndex] && !window.rainbowMode
+          )
+        }
+    
+        // Remove hovered styles from the previously hovered cell, if different
+        if (lastHovered >= 0 && lastHovered !== cellIndex) {
+          grid.children[lastHovered].classList.remove('hovered','hovered-fast-trans','clicked')
+          prevDown[lastHovered] = false
+        }
+    
+        lastHovered = cellIndex
+        if (cellIndex >= 0) {
+          prevDown[cellIndex] = window.rainbowMode
+        }
+      }
+    
+      document.addEventListener('mousemove', render, { capture: true, passive: true })
+      document.addEventListener('mouseleave', () => render({ clientX: -1, clientY: -1 }), { passive: true })
+    </script>
+
+
+
+
+
+
+
+
 </body>
   <style>
   .name {
@@ -87,4 +164,49 @@
     margin: 0 auto;
   }
   </style>
+
+
+  <style>
+    /* 
+      The background grid covers the entire viewport, 
+      sits behind your main content, 
+      and is blurred + unclickable.
+    */
+    #bg-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      z-index: -2;              /* behind everything */
+      pointer-events: none;     /* don’t block clicks */
+      filter: blur(10px);       /* blur the rainbow squares */
+    }
+
+    #bg-grid div {
+      background: #f8f9fa;
+      transition: 800ms background linear;
+    }
+
+    /* When hovered or “active,” we’ll override the background color and possibly speed up transitions. */
+    #bg-grid div.hovered {
+      background: #e9ecef;
+    }
+
+    #bg-grid div.hovered-fast-trans {
+      transition: 100ms background linear;
+    }
+
+    #bg-grid div.clicked {
+      background: var(--click-bg); 
+      transition: 10ms background linear;
+    }
+  </style>
+
+
+
+
+
 </html>
