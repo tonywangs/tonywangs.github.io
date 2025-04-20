@@ -378,8 +378,8 @@ a:hover::after {
 }
 
 h3 {
-   font-family: "Source Sans Pro", sans-serif;
-   color: #2D1B69;  /* Deep purple */
+   font-family: var(--font-mono);
+   color: var(--accent-primary);
    font-weight: 200;
    font-size: 1.9rem;
    line-height: 60px;
@@ -629,3 +629,14 @@ html, body {
   transition: opacity 0.8s ease;
   margin-bottom: 0.5rem;
 }
+
+/* Remove the decorative ${ } but keep underline + pink hover color */
+a:hover::before {                /* left brace */
+  content: none;                 /* nothing = no glyph */
+}
+
+a:hover::after {                 /* right brace + underline */
+  content: '';                   /* blank string keeps the element alive
+                                    so width:100% still draws the line */
+}
+
