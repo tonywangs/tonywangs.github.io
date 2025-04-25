@@ -41,7 +41,7 @@
       <div class="big-name">
         <h1><b>TONY WANG</b></h1>
       </div>
-      <p class="p-padding"><b>studying <a href="https://github.com/tonywangs">cs</a> + <a href="https://sumo.stanford.edu/proco/">psych</a> @ stanford</b></p>
+      <p class="p-padding"><b><span style="color: #ff64da;">></span> studying <a href="https://github.com/tonywangs">cs</a> + <a href="https://sumo.stanford.edu/proco/">psych</a> @ stanford</b></p>
       
         <div class="p-body">
             <h3 id = "readingHeader"><b>WRITING</b></h3>
@@ -71,23 +71,7 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // 1) The existing menu button toggle code:
-    const menuBtns = document.querySelectorAll('.menu-btn');
-    menuBtns.forEach(btn => {
-      btn.addEventListener('click', function() {
-        const menuContent = this.nextElementSibling;
-        if (menuContent) {
-          menuContent.style.display = 
-            menuContent.style.display === 'block' ? 'none' : 'block';
-        }
-        const menu = this.closest('.menu');
-        if (menu) {
-          menu.classList.toggle('toggled');
-        }
-      });
-    });
-
-    // 2) The new reading-page animation logic
+    // The writing-page animation logic
     const readingHeader = document.getElementById('readingHeader');
     const goodreadsLine = document.getElementById('goodreadsLine');
     const readingList = document.getElementById('readingList');
@@ -125,11 +109,13 @@
     setTimeout(() => {
       const sidebar = document.getElementById('sidebar');
       sidebar.style.opacity = '1';
-      sidebar.style.transform = 'translateX(0)';
+      sidebar.classList.add('visible');
     }, delay);
     delay += 800;
   });
 </script>
 
+  <script src="assets/js/textScramble.js"></script>
+  <script src="assets/js/scripts.js"></script>
 </body>
 </html>
