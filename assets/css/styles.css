@@ -149,8 +149,8 @@ body {
   box-shadow: 0 0 20px rgba(100, 255, 218, 0.1);
   position: relative;
   overflow: hidden;
-  max-width: calc(100% + 4rem);
-  margin-right: -4rem;
+  /* max-width: calc(100% + 4rem);
+  margin-right: -4rem; */
 }
 
 /* Add subtle scanline effect */
@@ -165,6 +165,8 @@ body {
     transparent 50%,
     rgba(100, 255, 218, 0.02) 50%
   );
+  background-size: 100% 4px;
+  pointer-events: none;
 }
 
 /* Add moving scanline */
