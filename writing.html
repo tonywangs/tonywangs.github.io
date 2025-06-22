@@ -23,7 +23,8 @@
           <a href="javascript:void(0)" class="menu-btn"><i class="fas fa-chevron-right"></i> ./pages</a>
           <div class="menu-content">
             <a href="./reading.html" class="branch">└── reading.md</a>
-            <a href="./writing.html" class="branch-end">└── writing.md</a>
+            <a href="./writing.html" class="branch">└── writing.md</a>
+            <a href="./projects.html" class="branch-end">└── projects.html</a>
           </div>
         </li>
         <li class="menu">
@@ -41,15 +42,22 @@
       <div class="big-name">
         <h1><b>TONY WANG</b></h1>
       </div>
-      <p class="p-padding"><b><span style="color: #ff64da;">></span> studying <a href="https://github.com/tonywangs">cs</a> + <a href="https://sumo.stanford.edu/proco/">psych</a> @ stanford</b></p>
+      <p class="p-padding"><b><span style="color: #ff64da;">></span> studying <a href="https://github.com/tonywangs">cs</a> + <a href="https://sumo.stanford.edu/proco/">math</a> @ stanford</b></p>
       
         <div class="p-body">
-            <h3 id = "readingHeader"><b>WRITING</b></h3>
+            <h3 id = "writingHeader"><b>WRITING</b></h3>
             
-            <div id="readingList">
+            <div id="writingList">
             <hr style="border: 0; height: 1px; background-color: #563D25; margin: 20px 0;">
-              <br>
-
+              <!-- <br> -->
+                <p><i>essays</i></p>
+                <p><i>on the end of personalization</i> | <a href="./essays/end-of-personalization.html">read here</a></p>
+                <p><i>tech bro go home: on queer rage and ruin </i> | <a href="./essays/queers-hate-techies.html">read here</a></p>
+                <p><i>spies, systems, satire, and sleep </i> | <a href="./essays/sophomore-classes.html">read here</a></p>
+                <p><i>the anti-buddha </i> | <a href="./essays/anti-buddha.html">read here</a></p>
+                <!-- <p><i> </i></p> -->
+                <br>
+                <p><i>poems</i></p>
                 <p><i>elegy after the wildfire</i> | <a href="https://terrorhousemag.com/elegy/" target="_blank">terror house magazine</a></p>
                 <p><i>parturition</i> | <a href="https://terrorhousemag.com/elegy/" target="_blank">terror house magazine</a></p>
                 <p><i>astray</i> | <a href="https://sourcherrymag.com/post/692333194288267264/astray-by-tony-wang-hehim-i-want-to-stand-in" target="_blank">sour cherry magazine</a></p>
@@ -68,54 +76,6 @@
 
   <!-- Include TextScramble if not already included -->
 <script src="assets/js/textScramble.js"></script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // The writing-page animation logic
-    const readingHeader = document.getElementById('readingHeader');
-    const goodreadsLine = document.getElementById('goodreadsLine');
-    const readingList = document.getElementById('readingList');
-
-    // Helper to scramble text in an element:
-    function scrambleText(el) {
-      el.style.opacity = '1';
-      const fx = new TextScramble(el);
-      fx.setText(el.textContent);
-    }
-
-    // Animate in sequence
-    let delay = 1000; // Start after 1s or 0 if you want immediate
-
-    // (a) Decrypt "reading"
-    setTimeout(() => {
-      scrambleText(readingHeader);
-    }, delay);
-    delay += 700; // wait 0.7s
-
-    // (b) Decrypt "add me on goodreads..."
-    setTimeout(() => {
-      scrambleText(goodreadsLine);
-    }, delay);
-    delay += 1000;
-
-    // (c) Slide in the reading list
-    setTimeout(() => {
-      readingList.style.opacity = '1';
-      readingList.style.transform = 'translateY(0)';
-    }, delay);
-    delay += 800;
-
-    // Slide in the side bar 
-    setTimeout(() => {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.style.opacity = '1';
-      sidebar.classList.add('visible');
-    }, delay);
-    delay += 800;
-  });
-</script>
-
-  <script src="assets/js/textScramble.js"></script>
-  <script src="assets/js/scripts.js"></script>
+<script src="assets/js/scripts.js"></script>
 </body>
 </html>

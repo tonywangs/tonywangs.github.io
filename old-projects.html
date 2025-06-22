@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G‑EF518STZBY"></script>
+  <script src="assets/js/analytics.js"></script>
+
+  <link rel="icon" href="images/teal-slash-favicon.png">
+  <title>tony wang</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <div id="sidebar">
+      <ul>
+        <li class="menu">
+          <a href="./index.html" class="menu-btn"><i class="fas fa-terminal"></i> ~</a>
+        </li>
+        <li class="menu">
+          <a href="javascript:void(0)" class="menu-btn"><i class="fas fa-chevron-right"></i> ./pages</a>
+          <div class="menu-content">
+            <a href="./reading.html" class="branch">└── reading.md</a>
+            <a href="./writing.html" class="branch">└── writing.md</a>
+            <a href="./projects.html" class="branch-end">└── projects.md</a>
+          </div>
+        </li>
+        <li class="menu">
+          <a href="javascript:void(0)" class="menu-btn"><i class="fas fa-chevron-right"></i> ./links</a>
+          <div class="menu-content">
+            <a href="https://github.com/tonywangs" class="branch" target="_blank" rel="noopener noreferrer">└── github.sh</a>
+            <a href="https://www.linkedin.com/in/tony-wang-/" class="branch" target="_blank" rel="noopener noreferrer">└── linkedin.json</a>
+            <a href="https://twitter.com/TonyW__" class="branch" target="_blank" rel="noopener noreferrer">└── twitter.js</a>
+            <a href="https://metax.substack.com/" class="branch-end" target="_blank" rel="noopener noreferrer">└── substack.txt</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="content">
+      <div class="big-name">
+        <h1><b>TONY WANG</b></h1>
+      </div>
+      <p class="p-padding"><b><span style="color: #ff64da;">></span> studying <a href="https://github.com/tonywangs">cs</a> + <a href="https://sumo.stanford.edu/proco/">math</a> @ stanford</b></p>
+      
+      <div class="p-body">
+        <h3 id="projectsHeader"><b>PROJECTS</b></h3>
+        
+        <div class="projects-container">
+          <!-- Left side: Project list -->
+          <div class="projects-list">
+            <div class="project-category">
+              <h4>engineering</h4>
+              <div class="project-item" data-project="project1">
+                <span class="project-title">Project 1</span>
+                <span class="project-year">2024</span>
+              </div>
+              <div class="project-item" data-project="project2">
+                <span class="project-title">Project 2</span>
+                <span class="project-year">2023</span>
+              </div>
+            </div>
+
+            <div class="project-category">
+              <h4>research</h4>
+              <div class="project-item" data-project="project3">
+                <span class="project-title">Project 3</span>
+                <span class="project-year">2024</span>
+              </div>
+              <div class="project-item" data-project="project4">
+                <span class="project-title">Project 4</span>
+                <span class="project-year">2023</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right side: Project details -->
+          <div class="project-details">
+            <!-- Project details will be dynamically loaded here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/textScramble.js"></script>
+  <script src="assets/js/scripts.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Projects page animation logic
+      const projectsHeader = document.getElementById('projectsHeader');
+      const projectsList = document.querySelector('.projects-list');
+      const projectDetails = document.querySelector('.project-details');
+
+      // Helper to scramble text
+      function scrambleText(el) {
+        el.style.opacity = '1';
+        const fx = new TextScramble(el);
+        fx.setText(el.textContent);
+      }
+
+      // Animate in sequence
+      let delay = 1000;
+
+      // Decrypt header
+      setTimeout(() => {
+        scrambleText(projectsHeader);
+      }, delay);
+      delay += 700;
+
+      // Slide in projects list
+      setTimeout(() => {
+        projectsList.style.opacity = '1';
+        projectsList.style.transform = 'translateX(0)';
+      }, delay);
+      delay += 800;
+
+      // Handle project clicks
+      const projectItems = document.querySelectorAll('.project-item');
+      projectItems.forEach(item => {
+        item.addEventListener('click', function() {
+          // Remove active class from all items
+          projectItems.forEach(p => p.classList.remove('active'));
+          // Add active class to clicked item
+          this.classList.add('active');
+          
+          // Show project details (placeholder)
+          projectDetails.style.opacity = '1';
+          projectDetails.style.transform = 'translateX(0)';
+          projectDetails.innerHTML = `
+            <h2>${this.querySelector('.project-title').textContent}</h2>
+            <p class="project-description">
+              This is a placeholder description for ${this.querySelector('.project-title').textContent}.
+              It will be replaced with actual project details.
+            </p>
+            <div class="project-links">
+              <a href="#" class="project-link">code</a>
+              <a href="#" class="project-link">demo</a>
+            </div>
+          `;
+        });
+      });
+    });
+  </script>
+</body>
+</html> 

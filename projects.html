@@ -7,7 +7,7 @@
   <script src="assets/js/analytics.js"></script>
 
   <link rel="icon" href="images/teal-slash-favicon.png">
-  <title>tony wang</title>
+  <title>tony wang | projects</title>
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
@@ -21,10 +21,10 @@
         </li>
         <li class="menu">
           <a href="javascript:void(0)" class="menu-btn"><i class="fas fa-chevron-right"></i> ./pages</a>
-          <div class="menu-content">
+          <div class="menu-content" style="display: block;">
             <a href="./reading.html" class="branch">└── reading.md</a>
             <a href="./writing.html" class="branch">└── writing.md</a>
-            <a href="./projects.html" class="branch-end">└── projects.md</a>
+            <a href="./projects.html" class="branch-end">└── projects.html</a>
           </div>
         </li>
         <li class="menu">
@@ -42,106 +42,185 @@
       <div class="big-name">
         <h1><b>TONY WANG</b></h1>
       </div>
-      <p class="p-padding"><b><span style="color: #ff64da;">></span> studying <a href="https://github.com/tonywangs">cs</a> + <a href="https://sumo.stanford.edu/proco/">psych</a> @ stanford</b></p>
+      <p class="p-padding"><b><span style="color: #ff64da;">></span> studying <a href="https://github.com/tonywangs">cs</a> + <a href="https://sumo.stanford.edu/proco/">math</a> @ stanford</b></p>
       
-      <div class="p-body">
-        <h3 id="projectsHeader"><b>PROJECTS</b></h3>
-        
-        <div class="projects-container">
-          <!-- Left side: Project list -->
-          <div class="projects-list">
-            <div class="project-category">
-              <h4>engineering</h4>
-              <div class="project-item" data-project="project1">
-                <span class="project-title">Project 1</span>
-                <span class="project-year">2024</span>
-              </div>
-              <div class="project-item" data-project="project2">
-                <span class="project-title">Project 2</span>
-                <span class="project-year">2023</span>
-              </div>
-            </div>
-
-            <div class="project-category">
-              <h4>research</h4>
-              <div class="project-item" data-project="project3">
-                <span class="project-title">Project 3</span>
-                <span class="project-year">2024</span>
-              </div>
-              <div class="project-item" data-project="project4">
-                <span class="project-title">Project 4</span>
-                <span class="project-year">2023</span>
-              </div>
+        <div class="p-body">
+          <h3 id="projectsHeader"><b>past projects</b></h3>
+          <p id="projectsSubtitle" class="subtitle">
+            a collection of fun things i've made
+          </p>
+          
+          <div class="project-post">
+            <p class="project-title"><b>Caply (CCPA Compliance Tool)</b></p>
+            <p class="project-description">
+              Akaash and I engineered a tool to streamline California Consumer Privacy Act (CCPA) compliance for SMBs. Caply empowers companies to efficiently identify and purge personal data from their systems, as well as automatically notifying third-party vendors, ensuring adherence to critical privacy regulations.
+            </p>
+            <div class="project-links">
+                <a href="https://drive.google.com/file/d/1t7oMt2b-8XfqO7WqlDhy10kgEx0lHQdg/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="project-link">Demo</a>
             </div>
           </div>
 
-          <!-- Right side: Project details -->
-          <div class="project-details">
-            <!-- Project details will be dynamically loaded here -->
+          <div class="project-post">
+            <p class="project-title"><b>AEMP Web Scrapers (Stanford Public Interest Technology Lab)</b></p>
+            <p class="project-description">
+              Led a web-scraping project with the Anti-Eviction Mapping Project (AEMP) as part of the Stanford Public Interest Tech (PIT) Lab. This project automates the collection of critical housing data to support AEMP's mission of providing data for fighting housing insecurity.
+            </p>
+            <div class="project-links">
+                <a href="https://github.com/tonywangs/AEMP-Webscrapers" target="_blank" rel="noopener noreferrer" class="project-link">Code</a>
+                <a href="https://www.youtube.com/watch?v=R7jJBUvQzZo" target="_blank" rel="noopener noreferrer" class="project-link">Demo</a>
+            </div>
           </div>
-        </div>
+
+          <div class="project-post">
+            <p class="project-title"><b>Monet (Voice-based Tool for Google Slide Editing)</b></p>
+            <p class="project-description">
+              Developed 'Monet,' a voice-controlled AI tool for seamless presentation editing. This project, created for the OpenAI x Pear VC hackathon, leverages voice commands to manipulate slide content, accelerating and making accessible the editing workflow.
+            </p>
+            <div class="project-links">
+                <a href="https://github.com/tonywangs/monet?tab=readme-ov-file" target="_blank" rel="noopener noreferrer" class="project-link">Code</a>
+                <a href="https://www.loom.com/share/e08cd148dcf144748d9a791680929056" target="_blank" rel="noopener noreferrer" class="project-link">Demo</a>
+            </div>
+          </div>
+
+          <div class="project-post">
+            <p class="project-title"><b>Neurosense (DSM-5 & SAMHSA-informed Crisis Care)</b></p>
+            <p class="project-description">
+              Coded 'Neurosense,' an expert support and crisis care platform informed by DSM-5 and SAMHSA guidelines. This application provides real-time assistance, bridging the gap between individuals in need and professionally-backed mental health advice/resources.
+            </p>
+            <div class="project-links">
+                <a href="https://github.com/tonywangs/neurosense" target="_blank" rel="noopener noreferrer" class="project-link">GitHub</a>
+                <a href="https://devpost.com/software/neurosense-8ykswz" target="_blank" rel="noopener noreferrer" class="project-link">Devpost</a>
+            </div>
+          </div>
+
+          <div class="project-post">
+            <p class="project-title"><b>Hourglass (Productivity & Time Management iOS App)</b></p>
+            <p class="project-description">
+              Developed 'Hourglass,' a productivity-tracking iOS application designed to gamify time management. The app fosters motivation through social accountability features and provides visual progress tracking, empowering users to take control of their time.
+            </p>
+            <img src="images/hourglass-demo-pics.svg" alt="Demo of the Hourglass app" class="project-image" width="100%">
+            <div class="project-links">
+                <a href="https://github.com/tonywangs/cs278-final-project" target="_blank" rel="noopener noreferrer" class="project-link">Code</a>
+                <a href="https://www.youtube.com/watch?v=gj5VHRDr-i8" target="_blank" rel="noopener noreferrer" class="project-link">Demo</a>
+            </div>
+          </div>
+
+          <div class="project-post">
+            <p class="project-title"><b>MultiSport (AI-Powered Sports Analytics)</b></p>
+            <p class="project-description">
+              Designed and implemented 'MultiSport,' a real-time CV system for simultaneously live tracking multiple players in sports footage. The system provides bird's-eye view analytics, offering insights into player movement and team strategy. Implemented Kalman filtering, homography transformation, Canny edge detection, etc. 
+            </p>
+            <div class="project-links">
+                <a href="https://github.com/tonywangs/cs131-final-project" target="_blank" rel="noopener noreferrer" class="project-link">Code</a>
+                <a href="https://youtu.be/APf4NyKwL0E" target="_blank" rel="noopener noreferrer" class="project-link">Demo</a>
+                <a href="https://drive.google.com/file/d/17Bml1LAhEo84CU5sLqLwOiEu25uD9BzU/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="project-link">Paper</a>
+                <a href="https://drive.google.com/file/d/1efCrSiR_aXchH7qKIQGJ2qjwsSGlNc_a/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="project-link">Slides</a>
+            </div>
+          </div>
+
+          <div class="project-post">
+            <p class="project-title"><b>ACM ML Lab (Avian Species Classification)</b></p>
+            <p class="project-description">
+              As part of the ACM ML Lab, developed 'Bird-ResNet,' which applied deep ResNets to the task of avian species classification from images.
+            </p>
+            <div class="project-links">
+                <a href="https://github.com/tonywangs/Bird-ResNet" target="_blank" rel="noopener noreferrer" class="project-link">Code</a>
+                <a href="https://github.com/tonywangs/Bird-ResNet/blob/main/AHP__Final_Lab_Report__Copy_%20(1).pdf" target="_blank" rel="noopener noreferrer" class="project-link">Paper</a>
+            </div>
+          </div>
+
+          <div class="project-post">
+            <p class="project-title"><b>CS44N (Computational Graphics)</b></p>
+            <p class="project-description">
+              Completed a series of projects in computational graphics mentored by Professor Doug James, exploring topics from ray tracing to 3D modeling. Learned a lot about the math behind modern computer graphics.
+            </p>
+            <img src="images/cs44n-selected-gifs-white.svg" alt="Demo of the CS44N project" class="project-image" width="100%">
+            <div class="project-links">
+                <a href="https://github.com/tonywangs/CS44N-Computer-Graphics" target="_blank" rel="noopener noreferrer" class="project-link">Code</a>
+            </div>
+          </div>
+
+          <div class="project-post">
+            <p class="project-title"><b>CharacterGraph (Narrative Analysis Tool)</b></p>
+            <p class="project-description">
+              Got confused keeping track of the characters in Cixin Liu's novels, so I made 'CharacterGraph,' a tool that analyzes a body of text to automatically generate and visualize a graph of character relationships. This provides a super fun at-a-glance graph of narrative structures.
+            </p>
+            <div class="project-links">
+                <a href="https://github.com/tonywangs/character-graph" target="_blank" rel="noopener noreferrer" class="project-link">Code</a>
+            </div>
+          </div>
+          
+          <div class="project-post">
+            <p class="project-title"><b>HeadcountAI (AI for Headcount Forecasting)</b></p>
+            <p class="project-description">
+             During my Amazon internship last summer, I designed and proposed an AI Technical Program Manager for project forecasting. I integrated LLMs and standard neural networks to create a more accurate and automated system for workforce planning. I received an Amazon Raising the Bar award for my project! 
+            </p>
+            <img src="images/amazon-block-diagram.png" alt="Block diagram of the Amazon headcount forecasting system" class="project-image" width="100%">
+          </div>
+
+          <div class="project-post">
+            <p class="project-title"><b>CS109 (Stanford Open Policing Project Analysis)</b></p>
+            <p class="project-description">
+             Conducted a statistical analysis of data from the Stanford Open Policing Project. I explored patterns and biases in traffic stop data, demonstrating that black and hispanic drivers are more likely to be searched than white drivers. My project got awarded third place in the Stanford Probability Contest! 
+            </p>
+            <div class="project-links">
+                <a href="https://drive.google.com/file/d/1f1y6pPhLwnnDShxWyhm3TKCAJVUqKiRF/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="project-link">Paper</a>
+                <a href="https://github.com/tonywangs/open-police-project" target="_blank" rel="noopener noreferrer" class="project-link">Code</a>
+            </div>
+          </div>
+
+          <div class="project-post">
+            <p class="project-title"><b>Microsoft Consulting (Azure Redesign)</b></p>
+            <p class="project-description">
+              Developed design specifications and strategy recommendations through user interviews, competitive analysis, and design testing. Presented to the Azure team at Microsoft.
+            </p>
+            <div class="project-links">
+                <a href="https://docs.google.com/presentation/d/1aDTCaTFkHeXfDPT3CMGbJuxkwFZCCEbBQXB5Ju-RtV8/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="project-link"> Deck Sample </a>
+            </div>
+          </div>
+
+          <div class="project-post">
+            <p class="project-title"><b>Indica Rice Genomic Research</b></p>
+            <p class="project-description">
+              As part of the Non-Trivial Fellowship, I used computational gene expression analysis and machine learning to uncover biomarkers for drought resistance in Indica rice. Identified three key hub genes (D2HGDH, DMC1A, and COQ3) with known protein structures, offering tractable targets for improving crop resilience. 
+            </p>
+            <img src="images/ag-plots.svg" alt="Photo of Non-Trivial Fellowship" class="project-image" width="100%">
+            <div class="project-links">
+                <a href="https://docs.google.com/document/d/13Yixu_X5kyFuIUEyPFHCxMCr-N6JxkljGgZ7gerW2NQ/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="project-link">Paper</a>
+            </div>
+          </div>
+
+          <div class="project-post">
+            <p class="project-title"><b>TF-CNN Bioinformatics Tool (SAIL Kundaje Lab)</b></p>
+            <p class="project-description">
+              Contributed to computational genomics research during an internship at Stanford's Kundaje Lab (SAIL). Focused on developing and interpreting transformer/CNN models to better understand transcription factor binding motifs.
+            </p>
+            <img src="images/predictions.png" alt="Photo of Heatmap Predictions" class="project-image" width="100%">
+          </div>
+
+          <div class="project-post">
+            <p class="project-title"><b>Myocarditis Bioinformatics Research (Stanford Medicine Sean Wu Lab)</b></p>
+            <p class="project-description">
+              Worked at the Stanford School of Medicine in the Sean Wu Lab, contributing to a CRISPR myocarditis study. Gained hands-on experience in dimensionality reduction and clustering.
+            </p>
+            <img src="images/IMG_0245.PNG" alt="Photo of Seurat clusters" class="project-image" width="100%">
+          </div>
+
+          <div class="project-post">
+            <p class="project-title"><b>Schmidt Futures x Rhodes Trust Rise Global Winner Project</b></p>
+            <p class="project-description">
+              Developed a novel computational framework for drug discovery, which earned recognition at the International Science and Engineering Fair (ISEF) and the 77th Annual UN General Assembly in New York City.
+            </p>
+            <div class="project-links">
+                <a href="http://abstracts.societyforscience.org/Home/FullAbstract?ProjectId=23050" target="_blank" rel="noopener noreferrer" class="project-link">Abstract</a>
+                <a href="https://www.youtube.com/watch?v=TguJNA54wCA" target="_blank" rel="noopener noreferrer" class="project-link">Panel</a>
+            </div>
+          </div>
+
       </div>
     </div>
   </div>
-
   <script src="assets/js/textScramble.js"></script>
   <script src="assets/js/scripts.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Projects page animation logic
-      const projectsHeader = document.getElementById('projectsHeader');
-      const projectsList = document.querySelector('.projects-list');
-      const projectDetails = document.querySelector('.project-details');
-
-      // Helper to scramble text
-      function scrambleText(el) {
-        el.style.opacity = '1';
-        const fx = new TextScramble(el);
-        fx.setText(el.textContent);
-      }
-
-      // Animate in sequence
-      let delay = 1000;
-
-      // Decrypt header
-      setTimeout(() => {
-        scrambleText(projectsHeader);
-      }, delay);
-      delay += 700;
-
-      // Slide in projects list
-      setTimeout(() => {
-        projectsList.style.opacity = '1';
-        projectsList.style.transform = 'translateX(0)';
-      }, delay);
-      delay += 800;
-
-      // Handle project clicks
-      const projectItems = document.querySelectorAll('.project-item');
-      projectItems.forEach(item => {
-        item.addEventListener('click', function() {
-          // Remove active class from all items
-          projectItems.forEach(p => p.classList.remove('active'));
-          // Add active class to clicked item
-          this.classList.add('active');
-          
-          // Show project details (placeholder)
-          projectDetails.style.opacity = '1';
-          projectDetails.style.transform = 'translateX(0)';
-          projectDetails.innerHTML = `
-            <h2>${this.querySelector('.project-title').textContent}</h2>
-            <p class="project-description">
-              This is a placeholder description for ${this.querySelector('.project-title').textContent}.
-              It will be replaced with actual project details.
-            </p>
-            <div class="project-links">
-              <a href="#" class="project-link">code</a>
-              <a href="#" class="project-link">demo</a>
-            </div>
-          `;
-        });
-      });
-    });
-  </script>
 </body>
 </html> 

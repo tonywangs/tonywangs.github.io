@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G‑EF518STZBY"></script>
+  <script src="../assets/js/analytics.js"></script>
+
+  <link rel="icon" href="../images/teal-slash-favicon.png">
+  <title>On the End of Personalization - Tony Wang</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <div id="sidebar">
+      <ul>
+        <li class="menu">
+          <a href="../index.html" class="menu-btn"><i class="fas fa-terminal"></i> ~</a>
+        </li>
+        <li class="menu">
+          <a href="javascript:void(0)" class="menu-btn"><i class="fas fa-chevron-right"></i> ./pages</a>
+          <div class="menu-content">
+            <a href="../reading.html" class="branch">└── reading.md</a>
+            <a href="../writing.html" class="branch">└── writing.md</a>
+            <a href="../projects.html" class="branch-end">└── projects.html</a>
+          </div>
+        </li>
+        <li class="menu">
+          <a href="javascript:void(0)" class="menu-btn"><i class="fas fa-chevron-right"></i> ./links</a>
+          <div class="menu-content">
+            <a href="https://github.com/tonywangs" class="branch" target="_blank" rel="noopener noreferrer">└── github.sh</a>
+            <a href="https://www.linkedin.com/in/tony-wang-/" class="branch" target="_blank" rel="noopener noreferrer">└── linkedin.json</a>
+            <a href="https://twitter.com/TonyW__" class="branch" target="_blank" rel="noopener noreferrer">└── twitter.js</a>
+            <a href="https://metax.substack.com/" class="branch-end" target="_blank" rel="noopener noreferrer">└── substack.txt</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="content">
+      <div class="big-name">
+        <h1><b>TONY WANG</b></h1>
+      </div>
+      <p class="p-padding"><b><span style="color: #ff64da;">></span> studying <a href="https://github.com/tonywangs">cs</a> + <a href="https://sumo.stanford.edu/proco/">math</a> @ stanford</b></p>
+      
+      <div class="p-body">
+        <div class="essay-content">
+          <h3 id="essayTitle"><b>On the End of Personalization</b></h3>
+          <p class="date" id="essayDate">Published: March 2024</p>
+          <hr style="border: 0; height: 1px; background-color: #563D25; margin: 20px 0;">
+          
+          <p>For the last decade, personalization has been treated as a north star in design. Every product wanted to be "for you": your data, your preferences, your journey. But somewhere along the way, I think we forgot that humans are social creatures. We don't just want things tailored to us. We want to feel together.</p>
+
+          <p>I don't believe personalization is the future. In fact, I think we're headed the other way.</p>
+
+          <p>To be clear, personalization won't disappear. It's just going to flatten into table stakes, like mobile responsiveness or dark mode. Useful, invisible, expected. The real design frontier is shared, self-consistent spaces. Interfaces that adapt to context, not just identity.</p>
+
+          <p>Take Spotify. Discover Weekly is brilliant: clean, fun, and accurate. But the features people return to again and again aren't just personalized, they're communal. Collaborative playlists, friend activity, the dopamine hit of the special moment when someone is listening to the mix you made. These moments aren't about being known by a machine. They're about being seen by another person.</p>
+
+          <p>Hyper-personalization, for all its precision, is also isolating. It builds walls between users. You're not watching the same feed as your friend. You're not hearing the same song. You're not even seeing the same UI. There's no shared context, which lends way to digital solipsism.</p>
+
+          <p>Meanwhile, the interfaces around us are also starting to dissolve. Screens are fading into the background and UX is bleeding into the physical world. We're moving toward multimodal, ambient systems, spaces that respond not just to your preferences, but to your presence, body, and emotional state.</p>
+
+          <p>Designing for that requires an entirely different mindset. Imagine a meditation app that senses your stress in real time and shifts its tone, content, or duration accordingly. Or a classroom tool that adjusts its teaching based on real-time attention data from the room. Or a smart home that dims the lights and changes the music based on the collective mood of the people inside it.</p>
+
+          <p>This is something I think about a lot in my own work. At Hypelist, we build tools for people to share recommendations of the things they love. We visualize and map out webs of love and memories that the real world leaves no trace of. Personalization would be meaningless here. What matters is collective context. The interface isn't about tailoring to individuals but rather about surfacing truths across them, making patterns visible, making friendship legible.</p>
+
+          <p>The deeper truth is this: people don't want to feel optimized. They want to feel anchored. To something bigger, to someone else. We were never meant to navigate digital space alone. The interfaces of tomorrow must remember that.</p>
+
+          <p>That shift, from hyper-personal to contextually shared, is where design is going. And for the first time in a long time, I think the future looks a little less lonely :)</p>
+        </div>
+
+        <hr style="border: 0; height: 1px; background-color: #563D25; margin: 20px 0;">
+        <p><a href="../writing.html">← Back to Writing</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/textScramble.js"></script>
+  <script src="../assets/js/scripts.js"></script>
+  <script>
+    // Show sidebar quickly on essay pages
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        var sidebar = document.getElementById('sidebar');
+        if (sidebar) {
+          sidebar.style.opacity = '1';
+          sidebar.classList.add('visible');
+        }
+      }, 150);
+
+      // Scramble effect for essay title
+      var essayTitle = document.getElementById('essayTitle');
+      if (essayTitle && typeof TextScramble !== 'undefined') {
+        setTimeout(function() {
+          const fx = new TextScramble(essayTitle);
+          fx.setText(essayTitle.textContent);
+        }, 250);
+      }
+
+      // Fade/slide-in effect for essay date
+      var essayDate = document.getElementById('essayDate');
+      if (essayDate) {
+        essayDate.style.opacity = 0;
+        essayDate.style.transform = 'translateY(16px)';
+        setTimeout(function() {
+          essayDate.style.transition = 'opacity 0.7s cubic-bezier(.4,2,.6,1), transform 0.7s cubic-bezier(.4,2,.6,1)';
+          essayDate.style.opacity = 1;
+          essayDate.style.transform = 'translateY(0)';
+        }, 900);
+      }
+    });
+  </script>
+</body>
+</html> 
