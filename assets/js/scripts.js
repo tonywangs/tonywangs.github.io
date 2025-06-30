@@ -133,23 +133,6 @@ document.addEventListener('DOMContentLoaded', function() {
       delay += 500; // Reduced from 800
     }
   
-    // Reveal/Decrypt > formerly - only if it exists
-    if (formerlyHeader) {
-      setTimeout(() => {
-        scrambleHeader(formerlyHeader);
-      }, delay);
-      delay += 400; // Reduced from 700
-    }
-  
-    // Slide in formerly text - only if it exists
-    if (formerlyContent) {
-      setTimeout(() => {
-        formerlyContent.style.opacity = '1';
-        formerlyContent.style.transform = 'translateY(0)';
-      }, delay);
-      delay += 500; // Reduced from 800
-    }
-  
     // Reveal/Decrypt > currently - only if it exists
     if (currentlyHeader) {
       setTimeout(() => {
@@ -163,6 +146,23 @@ document.addEventListener('DOMContentLoaded', function() {
       setTimeout(() => {
         currentlyContent.style.opacity = '1';
         currentlyContent.style.transform = 'translateY(0)';
+      }, delay);
+      delay += 500; // Reduced from 800
+    }
+  
+    // Reveal/Decrypt > formerly - only if it exists
+    if (formerlyHeader) {
+      setTimeout(() => {
+        scrambleHeader(formerlyHeader);
+      }, delay);
+      delay += 400; // Reduced from 700
+    }
+  
+    // Slide in formerly text - only if it exists
+    if (formerlyContent) {
+      setTimeout(() => {
+        formerlyContent.style.opacity = '1';
+        formerlyContent.style.transform = 'translateY(0)';
       }, delay);
       delay += 500;
     }
