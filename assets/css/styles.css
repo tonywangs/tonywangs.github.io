@@ -493,13 +493,40 @@ html, body {
 /* FOR THE PROJECTS PAGE */
 
 .project-post {
+   position: relative;
    margin-bottom: 30px;
    margin-top: 30px;
-   padding-top: 20px;
-   border-top: 1px solid #2D1B69;  /* Deep purple border */
+   padding: 2rem;
+   background: rgba(100, 255, 218, 0.02);
+   border: 1px solid transparent;
+   border-radius: 12px;
    opacity: 0;
    transform: translateY(20px);
-   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+   transition: all 0.3s ease;
+   overflow: hidden;
+}
+
+.project-post::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   height: 2px;
+   background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+   transform: scaleX(0);
+   transition: transform 0.3s ease;
+}
+
+.project-post:hover {
+   background: rgba(100, 255, 218, 0.05);
+   border-color: var(--accent-primary);
+   transform: translateY(-5px);
+   box-shadow: 0 0 20px rgba(100, 255, 218, 0.1);
+}
+
+.project-post:hover::before {
+   transform: scaleX(1);
 }
 
 .project-title {
