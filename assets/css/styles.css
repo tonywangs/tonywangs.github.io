@@ -240,13 +240,186 @@ a:hover::after {
   opacity: 0.7;
 }
 
-/* Add matrix-like effect to the GitHub chart container */
+/* Interactive GitHub calendar container */
 #github-chart {
   position: relative;
-  filter: contrast(120%) brightness(80%) invert(92%) hue-rotate(180deg);
-  background-color: transparent;
-  padding: 1rem;
+  padding: 1rem 0.5rem 0.75rem;
   border-radius: 12px;
+  background: transparent;
+  overflow-x: visible;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.github-calendar {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.ghc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.ghc-year-select {
+  background: rgba(10,10,10,0.9);
+  color: var(--text-primary);
+  border-radius: 6px;
+  border: 1px solid rgba(255,100,218,0.5);
+  padding: 4px 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  outline: none;
+}
+
+.ghc-year-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ghc-total {
+  font-size: 10px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.ghc-scroll {
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.ghc-inner {
+  display: inline-block;
+  min-width: 100%;
+}
+
+.ghc-month-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.ghc-month-left {
+  width: 28px;
+  flex-shrink: 0;
+}
+
+.ghc-month-track {
+  position: relative;
+  height: 14px;
+  flex: 1;
+}
+
+.ghc-month-label {
+  position: absolute;
+  top: 0;
+  font-size: 10px;
+  color: rgba(255,255,255,0.45);
+}
+
+.ghc-grid-row {
+  display: flex;
+  gap: 4px;
+}
+
+.ghc-day-labels {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  width: 28px;
+  flex-shrink: 0;
+  color: rgba(255,255,255,0.5);
+}
+
+.ghc-day-labels span {
+  font-size: 10px;
+}
+
+.ghc-weeks {
+  display: flex;
+  gap: 3px;
+}
+
+.ghc-week {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ghc-day {
+  width: 10px;
+  height: 10px;
+  border-radius: 0;
+  box-sizing: border-box;
+}
+
+.ghc-pad {
+  background: transparent;
+}
+
+/* Level 0 = no contributions: grey. Levels 1–4 = muted purple-pink */
+.ghc-level-0 {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.ghc-level-1 {
+  background-color: rgba(140, 70, 120, 0.5);
+}
+
+.ghc-level-2 {
+  background-color: rgba(150, 75, 130, 0.65);
+}
+
+.ghc-level-3 {
+  background-color: rgba(160, 80, 140, 0.8);
+}
+
+.ghc-level-4 {
+  background-color: rgba(170, 85, 150, 0.95);
+}
+
+.ghc-legend {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.ghc-tooltip {
+  position: absolute;
+  z-index: 1000;
+  background: #111111;
+  border-radius: 6px;
+  border: 1px solid rgba(255,100,218,0.5);
+  padding: 6px 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-primary);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.ghc-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ghc-tooltip-title {
+  font-weight: 600;
+}
+
+.ghc-tooltip-date {
+  margin-top: 2px;
+  opacity: 0.8;
 }
 
 .big-name {
@@ -574,6 +747,32 @@ html, body {
   width: 100%;
   margin-top: 1rem;
   border-radius: 8px;
+}
+
+/* Side-by-side image row (e.g. Shepherd) */
+.project-images-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.project-images-row .project-image {
+  width: 50%;
+  flex: 1 1 0;
+  min-width: 0;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Crop portrait image to show bottom (e.g. Mercury stage photo – chops off top/ceiling) */
+.project-images-row .project-image-show-bottom {
+  object-position: bottom;
+}
+
+/* Crop portrait image to show upper half (e.g. Aegis/Brex headshots) */
+.project-images-row .project-image-show-top {
+  object-position: top;
 }
 
 .scramble-empty {
