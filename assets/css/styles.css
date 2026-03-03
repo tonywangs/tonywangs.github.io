@@ -252,6 +252,11 @@ a:hover::after {
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
+/* If using the old ghchart <img>, darken 0-days */
+img#github-chart {
+  filter: contrast(120%) brightness(80%) invert(92%) hue-rotate(180deg);
+}
+
 .github-calendar {
   font-family: var(--font-mono);
   font-size: 10px;
