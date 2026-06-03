@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', function() {
             const menuContent = this.nextElementSibling;
             if (menuContent) {
-                menuContent.style.display = menuContent.style.display === 'block' ? 'none' : 'block';
+                menuContent.classList.toggle('open');
             }
             
             const menu = this.closest('.menu');
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (pagesMenuBtn) {
       const menuContent = pagesMenuBtn.nextElementSibling;
       if (menuContent) {
-        menuContent.style.display = 'block';
+        menuContent.classList.add('open');
         pagesMenuBtn.closest('.menu').classList.add('toggled');
       }
     }

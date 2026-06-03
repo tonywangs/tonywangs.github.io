@@ -98,10 +98,18 @@ body {
 }
 
 .menu-content {
-  display: none;
+  display: block;
+  overflow: hidden;
+  max-height: 0;
   margin-left: 1rem;
   padding-left: 0.5rem;
   border-left: 1px dashed var(--accent-primary);
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.35s ease;
+}
+
+.menu-content.open {
+  max-height: 200px;
   opacity: 0.8;
 }
 
