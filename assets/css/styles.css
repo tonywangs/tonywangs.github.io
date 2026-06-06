@@ -73,6 +73,58 @@ body {
   opacity: 1;
 }
 
+/* Homepage only (.with-blob): a full-viewport-height sticky rail that vertically
+   centers the nav box + blob box as a group — without translateY(-50%), which pushed
+   a tall rail up off the top. `safe center` means that on the rare short window where
+   both menus + blob would overflow, it anchors to the top and scrolls instead of
+   clipping. Scoped to .with-blob, so other pages keep the original single centered box. */
+#sidebar.with-blob {
+  top: 0;
+  height: 100vh;
+  max-height: 100vh;
+  transform: translateX(-30px);
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
+  gap: 1rem;
+  overflow-y: auto;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  /* +50px keeps the original footprint now that the padding lives on the inner boxes */
+  width: calc(15% + 50px);
+  max-width: 250px;
+}
+#sidebar.with-blob.visible {
+  transform: translateX(0);
+}
+
+/* nav links box — the original panel look, used inside the homepage rail */
+.nav-box {
+  background-color: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--accent-primary);
+  box-shadow: 0 0 20px rgba(100, 255, 218, 0.1);
+}
+
+/* blob in a matching glowing box, stacked right under the nav (moves with it) */
+.nav-blob {
+  flex-shrink: 0;
+  height: 150px;
+  border-radius: 12px;
+  border: 1px solid var(--accent-primary);
+  box-shadow: 0 0 20px rgba(100, 255, 218, 0.1);
+  background-color: var(--bg-secondary);
+  overflow: hidden;
+}
+.nav-blob metaball-bg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 #sidebar ul {
   padding: 0;
   list-style-type: none;
@@ -529,7 +581,13 @@ a:hover::after {
     margin-right: 0;
     margin-bottom: 1rem;
   }
-  
+
+  #sidebar.with-blob {
+    width: 100%;
+    max-width: none;
+    height: auto;
+  }
+
   .content {
     padding: 1.5rem;
   }
@@ -1098,5 +1156,10 @@ a:hover::after {                 /* right brace + underline */
     box-shadow: 0 0 12px 1px rgba(255, 100, 218, 0.12);
     border-left-color: rgba(255, 100, 218, 0.85);
   }
+}
+
+/* hide the blob box on small/stacked screens where the sidebar goes full-width */
+@media (max-width: 768px) {
+  .nav-blob { display: none; }
 }
 

@@ -17,7 +17,8 @@
 
 <body>
   <div class="container">
-    <div id="sidebar">
+    <div id="sidebar" class="with-blob">
+      <div class="nav-box">
       <ul>
         <li class="menu">
           <a href="./index.html" class="menu-btn"><i class="fas fa-terminal"></i> ~</a>
@@ -40,6 +41,10 @@
           </div>
         </li>
       </ul>
+      </div>
+      <div class="nav-blob" aria-hidden="true">
+        <metaball-bg preset="chrome" blobs="6" quality="48" bg="transparent"></metaball-bg>
+      </div>
     </div>
     <div class="content">
       
@@ -107,6 +112,8 @@
       </div>
   </div> 
   
+  <script src="https://cdn.jsdelivr.net/gh/tonywangs/blobs@v4/dist/blobs.min.js"></script>
+
   <script src="assets/js/textScramble.js"></script>
   <script src="assets/js/scripts.js"></script>
   <script src="assets/js/githubChart.js"></script>
