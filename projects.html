@@ -154,8 +154,28 @@
                 <a href="https://blobs-playground.vercel.app" target="_blank" rel="noopener noreferrer" class="project-link">Playground</a>
                 <a href="https://blobs.vercel.app" target="_blank" rel="noopener noreferrer" class="project-link">Studio</a>
             </div>
-            <iframe src="https://blobs-playground.vercel.app/" title="blobs — live playground" loading="lazy"
-              style="width: 100%; height: 600px; margin-top: 1rem; border: 1px solid rgba(100, 255, 218, 0.18); border-radius: 8px; display: block;"></iframe>
+            <metaball-bg preset="chrome" blobs="11" speed="1.1"
+              style="width: 100%; height: 360px; margin-top: 1rem; border: 1px solid rgba(100, 255, 218, 0.18); border-radius: 8px; display: block; background: radial-gradient(circle at 50% 42%, #17171d, #0a0a0c);"></metaball-bg>
+          </div>
+
+          <div class="project-post">
+            <p class="project-title"><b>RL for Monetary Policy Under Macroeconomic Uncertainty</b></p>
+            <p class="project-description">
+              Using publicly accessible Federal Reserve Economic Data (FRED), we compare nine RL approaches against Taylor rule and naive baselines for macroeconomic monetary policy. Our paper was cited in a book by Turkey's former minister of agriculture and forestry. 
+            </p>
+            <div class="project-links">
+                <a href="https://arxiv.org/pdf/2512.17929" target="_blank" rel="noopener noreferrer" class="project-link">Paper</a>
+            </div>
+          </div>
+
+          <div class="project-post">
+            <p class="project-title"><b>bias-probe</b></p>
+            <p class="project-description">
+              bias-probe is a comprehensive benchmarking report for analyzing demographic bias in LLMs, which I’ve used to evaluate 120,000 runs across 12 providers; publication in progress. 
+            </p>
+            <div class="project-links">
+                <a href="https://creative-viz.vercel.app/" target="_blank" rel="noopener noreferrer" class="project-link">Dashboard</a>
+            </div>
           </div>
 
           <div class="project-post">
@@ -468,5 +488,6 @@
   </div>
   <script src="assets/js/textScramble.js"></script>
   <script src="assets/js/scripts.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/tonywangs/blobs@v7/dist/blobs.min.js"></script>
 </body>
 </html> 
