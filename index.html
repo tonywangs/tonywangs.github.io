@@ -20,6 +20,7 @@
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G‑EF518STZBY"></script>
   <script src="assets/js/analytics.js"></script>
+  <script defer src="assets/js/dot-lens.js"></script>
 
   <link rel="icon" href="images/teal-slash-favicon.png">
   <link rel="canonical" href="https://tonywang.xyz/">
@@ -68,7 +69,7 @@
         <a href="https://2025tonywang.vercel.app" target="_blank" rel="noopener noreferrer">Old site</a>
       </nav>
 
-      <figure class="morning">
+      <figure class="morning" data-dot-lens>
         <img
           src="images/sf-saturday-morning.jpg"
           alt="A rumpled white bed beside a sunlit San Francisco bay window, with leafy trees and hillside houses outside"
@@ -76,6 +77,7 @@
           height="1402"
           fetchpriority="high"
         >
+        <canvas class="dot-lens" aria-hidden="true"></canvas>
       </figure>
     </section>
   </main>

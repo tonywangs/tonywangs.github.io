@@ -126,14 +126,25 @@ a:focus-visible {
 .elsewhere span { color: #aaa6a0; }
 
 .morning {
+  position: relative;
   width: min(100%, 620px);
   margin: 64px auto 0;
+  isolation: isolate;
 }
 
 .morning img {
   display: block;
   width: 100%;
   height: auto;
+}
+
+.dot-lens {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 .page-heading {
@@ -282,6 +293,10 @@ metaball-bg {
   .project-images-row:has(.project-image:nth-child(3)) .project-image:last-child {
     width: 100%;
   }
+}
+
+@media (pointer: coarse) {
+  .dot-lens { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
