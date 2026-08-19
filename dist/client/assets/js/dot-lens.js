@@ -29,7 +29,7 @@
 
   const pointer = { active: false, x: 0, y: 0 };
   const dotStep = 3.5;
-  const decayTime = 780;
+  const decayTime = 640;
   let width = 0;
   let height = 0;
   let pixels = null;
@@ -47,9 +47,6 @@
 
   const buildStippleImage = () => {
     stippleContext.clearRect(0, 0, width, height);
-    stippleContext.drawImage(sourceCanvas, 0, 0);
-    stippleContext.fillStyle = "rgba(248, 247, 243, 0.28)";
-    stippleContext.fillRect(0, 0, width, height);
 
     if (!pixels) {
       return;
@@ -65,13 +62,29 @@
         const blue = pixels[index + 2];
         const luminance = (red * 0.2126 + green * 0.7152 + blue * 0.0722) / 255;
         const saturation = (Math.max(red, green, blue) - Math.min(red, green, blue)) / 255;
-        const radius = 0.72 + (1 - luminance) * 0.66 + saturation * 0.24;
+        const average = (red + green + blue) / 3;
+        const saturationBoost = 1.42;
+        const saturatedRed = average + (red - average) * saturationBoost;
+        const saturatedGreen = average + (green - average) * saturationBoost;
+        const saturatedBlue = average + (blue - average) * saturationBoost;
+        const contrast = luminance > 0.42 ? 0.7 : 1.18;
+        const lift = luminance > 0.42 ? 0 : 22;
+        const dotRed = Math.round(
+          Math.min(255, Math.max(0, saturatedRed * contrast + lift)),
+        );
+        const dotGreen = Math.round(
+          Math.min(255, Math.max(0, saturatedGreen * contrast + lift)),
+        );
+        const dotBlue = Math.round(
+          Math.min(255, Math.max(0, saturatedBlue * contrast + lift)),
+        );
+        const radius = 0.68 + (1 - luminance) * 0.52 + saturation * 0.18;
         const waveX = (Math.sin(y * 0.081) + Math.sin((x + y) * 0.037)) * 0.62;
         const waveY = (Math.cos(x * 0.073) + Math.sin((x - y) * 0.029)) * 0.46;
 
         stippleContext.beginPath();
         stippleContext.arc(x + waveX, y + waveY, radius, 0, Math.PI * 2);
-        stippleContext.fillStyle = `rgba(${red}, ${green}, ${blue}, 0.94)`;
+        stippleContext.fillStyle = `rgba(${dotRed}, ${dotGreen}, ${dotBlue}, 0.9)`;
         stippleContext.fill();
       }
     }
@@ -116,12 +129,12 @@
   };
 
   const stampTrail = (x, y, strength = 1) => {
-    const radius = Math.min(50, Math.max(36, width * 0.076));
+    const radius = Math.min(42, Math.max(30, width * 0.064));
     const gradient = maskContext.createRadialGradient(x, y, 0, x, y, radius);
-    gradient.addColorStop(0, `rgba(255, 255, 255, ${0.88 * strength})`);
-    gradient.addColorStop(0.24, `rgba(255, 255, 255, ${0.72 * strength})`);
-    gradient.addColorStop(0.56, `rgba(255, 255, 255, ${0.34 * strength})`);
-    gradient.addColorStop(0.82, `rgba(255, 255, 255, ${0.09 * strength})`);
+    gradient.addColorStop(0, `rgba(255, 255, 255, ${0.76 * strength})`);
+    gradient.addColorStop(0.24, `rgba(255, 255, 255, ${0.6 * strength})`);
+    gradient.addColorStop(0.56, `rgba(255, 255, 255, ${0.24 * strength})`);
+    gradient.addColorStop(0.82, `rgba(255, 255, 255, ${0.05 * strength})`);
     gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
 
     maskContext.save();
@@ -168,8 +181,8 @@
     const elapsed = lastFrameTime ? Math.min(64, time - lastFrameTime) : 16;
     lastFrameTime = time;
 
-    if (pointer.active && time - lastHoldTime > 42) {
-      stampTrail(pointer.x, pointer.y, 0.18);
+    if (pointer.active && time - lastHoldTime > 72) {
+      stampTrail(pointer.x, pointer.y, 0.1);
       lastHoldTime = time;
     }
 
