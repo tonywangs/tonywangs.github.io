@@ -7,28 +7,81 @@
     return;
   }
 
-  const context = canvas.getContext("2d", { alpha: true });
-  const sampleCanvas = document.createElement("canvas");
-  const sampleContext = sampleCanvas.getContext("2d", { willReadFrequently: true });
+  const outputContext = canvas.getContext("2d", { alpha: true });
+  const sourceCanvas = document.createElement("canvas");
+  const sourceContext = sourceCanvas.getContext("2d", { willReadFrequently: true });
+  const stippleCanvas = document.createElement("canvas");
+  const stippleContext = stippleCanvas.getContext("2d");
+  const maskCanvas = document.createElement("canvas");
+  const maskContext = maskCanvas.getContext("2d");
+  const effectCanvas = document.createElement("canvas");
+  const effectContext = effectCanvas.getContext("2d");
 
-  if (!context || !sampleContext) {
+  if (
+    !outputContext ||
+    !sourceContext ||
+    !stippleContext ||
+    !maskContext ||
+    !effectContext
+  ) {
     return;
   }
 
   const pointer = { active: false, x: 0, y: 0 };
-  const dotStep = 6;
+  const dotStep = 3.5;
+  const decayTime = 780;
   let width = 0;
   let height = 0;
-  let pixelData = null;
+  let pixels = null;
   let frame = 0;
+  let lastFrameTime = 0;
+  let lastHoldTime = 0;
+  let lastPoint = null;
+  let trailEnergy = 0;
 
-  const scheduleDraw = () => {
+  const scheduleFrame = () => {
     if (!frame) {
-      frame = window.requestAnimationFrame(draw);
+      frame = window.requestAnimationFrame(render);
+    }
+  };
+
+  const buildStippleImage = () => {
+    stippleContext.clearRect(0, 0, width, height);
+    stippleContext.drawImage(sourceCanvas, 0, 0);
+    stippleContext.fillStyle = "rgba(248, 247, 243, 0.28)";
+    stippleContext.fillRect(0, 0, width, height);
+
+    if (!pixels) {
+      return;
+    }
+
+    for (let y = dotStep / 2; y < height; y += dotStep) {
+      for (let x = dotStep / 2; x < width; x += dotStep) {
+        const sampleX = Math.min(width - 1, Math.max(0, Math.round(x)));
+        const sampleY = Math.min(height - 1, Math.max(0, Math.round(y)));
+        const index = (sampleY * width + sampleX) * 4;
+        const red = pixels[index];
+        const green = pixels[index + 1];
+        const blue = pixels[index + 2];
+        const luminance = (red * 0.2126 + green * 0.7152 + blue * 0.0722) / 255;
+        const saturation = (Math.max(red, green, blue) - Math.min(red, green, blue)) / 255;
+        const radius = 0.72 + (1 - luminance) * 0.66 + saturation * 0.24;
+        const waveX = (Math.sin(y * 0.081) + Math.sin((x + y) * 0.037)) * 0.62;
+        const waveY = (Math.cos(x * 0.073) + Math.sin((x - y) * 0.029)) * 0.46;
+
+        stippleContext.beginPath();
+        stippleContext.arc(x + waveX, y + waveY, radius, 0, Math.PI * 2);
+        stippleContext.fillStyle = `rgba(${red}, ${green}, ${blue}, 0.94)`;
+        stippleContext.fill();
+      }
     }
   };
 
   const syncCanvas = () => {
+    if (!image.complete || !image.naturalWidth) {
+      return;
+    }
+
     const bounds = image.getBoundingClientRect();
     const nextWidth = Math.max(1, Math.round(bounds.width));
     const nextHeight = Math.max(1, Math.round(bounds.height));
@@ -40,73 +93,112 @@
     canvas.height = Math.round(height * ratio);
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
-    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    outputContext.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-    sampleCanvas.width = width;
-    sampleCanvas.height = height;
-    sampleContext.clearRect(0, 0, width, height);
-    sampleContext.drawImage(image, 0, 0, width, height);
-    pixelData = sampleContext.getImageData(0, 0, width, height).data;
-    scheduleDraw();
+    for (const workingCanvas of [
+      sourceCanvas,
+      stippleCanvas,
+      maskCanvas,
+      effectCanvas,
+    ]) {
+      workingCanvas.width = width;
+      workingCanvas.height = height;
+    }
+
+    sourceContext.drawImage(image, 0, 0, width, height);
+    pixels = sourceContext.getImageData(0, 0, width, height).data;
+    buildStippleImage();
+    maskContext.clearRect(0, 0, width, height);
+    effectContext.clearRect(0, 0, width, height);
+    outputContext.clearRect(0, 0, width, height);
+    trailEnergy = 0;
+    lastPoint = null;
   };
 
-  function draw() {
-    frame = 0;
-    context.clearRect(0, 0, width, height);
+  const stampTrail = (x, y, strength = 1) => {
+    const radius = Math.min(50, Math.max(36, width * 0.076));
+    const gradient = maskContext.createRadialGradient(x, y, 0, x, y, radius);
+    gradient.addColorStop(0, `rgba(255, 255, 255, ${0.88 * strength})`);
+    gradient.addColorStop(0.24, `rgba(255, 255, 255, ${0.72 * strength})`);
+    gradient.addColorStop(0.56, `rgba(255, 255, 255, ${0.34 * strength})`);
+    gradient.addColorStop(0.82, `rgba(255, 255, 255, ${0.09 * strength})`);
+    gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
 
-    if (!pointer.active || !pixelData) {
+    maskContext.save();
+    maskContext.globalCompositeOperation = "source-over";
+    maskContext.fillStyle = gradient;
+    maskContext.fillRect(x - radius, y - radius, radius * 2, radius * 2);
+    maskContext.restore();
+    trailEnergy = 1;
+  };
+
+  const paintTo = (x, y) => {
+    const nextPoint = { x, y };
+
+    if (!lastPoint) {
+      stampTrail(x, y);
+      lastPoint = nextPoint;
       return;
     }
 
-    const radius = Math.min(88, width * 0.18);
-    const left = Math.max(0, pointer.x - radius);
-    const top = Math.max(0, pointer.y - radius);
-    const size = radius * 2;
+    const dx = x - lastPoint.x;
+    const dy = y - lastPoint.y;
+    const distance = Math.hypot(dx, dy);
+    const brushSpacing = 8;
+    const steps = Math.max(1, Math.ceil(distance / brushSpacing));
 
-    context.save();
-    context.beginPath();
-    context.arc(pointer.x, pointer.y, radius, 0, Math.PI * 2);
-    context.clip();
-    context.fillStyle = "rgba(250, 249, 245, 0.96)";
-    context.fillRect(left, top, size, size);
-
-    const firstX = Math.floor(left / dotStep) * dotStep + dotStep / 2;
-    const firstY = Math.floor(top / dotStep) * dotStep + dotStep / 2;
-    const right = Math.min(width, pointer.x + radius);
-    const bottom = Math.min(height, pointer.y + radius);
-
-    for (let y = firstY; y <= bottom; y += dotStep) {
-      for (let x = firstX; x <= right; x += dotStep) {
-        const dx = x - pointer.x;
-        const dy = y - pointer.y;
-
-        if (dx * dx + dy * dy > radius * radius) {
-          continue;
-        }
-
-        const sampleX = Math.min(width - 1, Math.max(0, Math.round(x)));
-        const sampleY = Math.min(height - 1, Math.max(0, Math.round(y)));
-        const index = (sampleY * width + sampleX) * 4;
-        const red = pixelData[index];
-        const green = pixelData[index + 1];
-        const blue = pixelData[index + 2];
-        const luminance = red * 0.2126 + green * 0.7152 + blue * 0.0722;
-        const darkness = 1 - luminance / 255;
-        const dotRadius = 0.35 + darkness * 2.45;
-
-        context.beginPath();
-        context.arc(x, y, dotRadius, 0, Math.PI * 2);
-        context.fillStyle = `rgba(31, 30, 27, ${0.34 + darkness * 0.66})`;
-        context.fill();
-      }
+    for (let step = 1; step <= steps; step += 1) {
+      const progress = step / steps;
+      stampTrail(lastPoint.x + dx * progress, lastPoint.y + dy * progress);
     }
 
-    context.restore();
-    context.beginPath();
-    context.arc(pointer.x, pointer.y, radius, 0, Math.PI * 2);
-    context.strokeStyle = "rgba(255, 255, 255, 0.52)";
-    context.lineWidth = 1;
-    context.stroke();
+    lastPoint = nextPoint;
+  };
+
+  const eventPoint = (event) => {
+    const bounds = image.getBoundingClientRect();
+    return {
+      x: Math.min(width, Math.max(0, event.clientX - bounds.left)),
+      y: Math.min(height, Math.max(0, event.clientY - bounds.top)),
+    };
+  };
+
+  function render(time) {
+    frame = 0;
+    const elapsed = lastFrameTime ? Math.min(64, time - lastFrameTime) : 16;
+    lastFrameTime = time;
+
+    if (pointer.active && time - lastHoldTime > 42) {
+      stampTrail(pointer.x, pointer.y, 0.18);
+      lastHoldTime = time;
+    }
+
+    const fadeAmount = 1 - Math.exp(-elapsed / decayTime);
+    maskContext.save();
+    maskContext.globalCompositeOperation = "destination-out";
+    maskContext.fillStyle = `rgba(0, 0, 0, ${fadeAmount})`;
+    maskContext.fillRect(0, 0, width, height);
+    maskContext.restore();
+    trailEnergy *= Math.exp(-elapsed / decayTime);
+
+    effectContext.clearRect(0, 0, width, height);
+    effectContext.globalCompositeOperation = "source-over";
+    effectContext.drawImage(stippleCanvas, 0, 0);
+    effectContext.globalCompositeOperation = "destination-in";
+    effectContext.drawImage(maskCanvas, 0, 0);
+    effectContext.globalCompositeOperation = "source-over";
+
+    outputContext.clearRect(0, 0, width, height);
+    outputContext.drawImage(effectCanvas, 0, 0, width, height);
+
+    if (pointer.active || trailEnergy > 0.012) {
+      scheduleFrame();
+    } else {
+      maskContext.clearRect(0, 0, width, height);
+      effectContext.clearRect(0, 0, width, height);
+      outputContext.clearRect(0, 0, width, height);
+      lastFrameTime = 0;
+    }
   }
 
   figure.addEventListener("pointerenter", (event) => {
@@ -114,11 +206,13 @@
       return;
     }
 
-    const bounds = image.getBoundingClientRect();
+    const point = eventPoint(event);
     pointer.active = true;
-    pointer.x = event.clientX - bounds.left;
-    pointer.y = event.clientY - bounds.top;
-    scheduleDraw();
+    pointer.x = point.x;
+    pointer.y = point.y;
+    lastPoint = null;
+    paintTo(point.x, point.y);
+    scheduleFrame();
   });
 
   figure.addEventListener("pointermove", (event) => {
@@ -126,16 +220,23 @@
       return;
     }
 
-    const bounds = image.getBoundingClientRect();
+    const events = event.getCoalescedEvents?.() || [event];
+
+    for (const coalescedEvent of events) {
+      const point = eventPoint(coalescedEvent);
+      pointer.x = point.x;
+      pointer.y = point.y;
+      paintTo(point.x, point.y);
+    }
+
     pointer.active = true;
-    pointer.x = event.clientX - bounds.left;
-    pointer.y = event.clientY - bounds.top;
-    scheduleDraw();
+    scheduleFrame();
   });
 
   figure.addEventListener("pointerleave", () => {
     pointer.active = false;
-    scheduleDraw();
+    lastPoint = null;
+    scheduleFrame();
   });
 
   const resizeObserver = new ResizeObserver(syncCanvas);
