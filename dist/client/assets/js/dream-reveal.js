@@ -104,7 +104,7 @@
     born = performance.now(),
     lifespanScale = 1,
   ) => {
-    const baseRadius = Math.min(84, Math.max(64, width * 0.132));
+    const baseRadius = Math.min(80, Math.max(61, width * 0.126));
     const normalX = -Math.sin(angle);
     const normalY = Math.cos(angle);
     const directionX = Math.cos(angle);
@@ -139,7 +139,7 @@
       lobeStrengthB: randomBetween(0.32, 0.58),
       strength,
       born,
-      lifespan: randomBetween(4700, 5800) * lifespanScale,
+      lifespan: randomBetween(3600, 4400) * lifespanScale,
     });
 
     if (stamps.length > 700) {
@@ -264,13 +264,13 @@
         randomBetween(0.9, 1),
         distance,
         born,
-        1.2,
+        1.05,
       );
     }
   };
 
   const buildDemoPath = () => {
-    const baseRadius = Math.min(84, Math.max(64, width * 0.132));
+    const baseRadius = Math.min(80, Math.max(61, width * 0.126));
     let rowCount = Math.max(7, Math.ceil(height / (baseRadius * 0.96)));
 
     if (rowCount % 2 === 0) {
@@ -346,9 +346,9 @@
     window.setTimeout(
       () => {
         const path = buildDemoPath();
-        const duration = reducedMotion ? 850 : 1750;
+        const duration = reducedMotion ? 1450 : 3400;
         const startedAt = performance.now();
-        const fadeStartsAt = startedAt + duration;
+        const fadeDelay = 900;
         let previousPoint = path.points[0];
 
         figure.classList.add("demo-running");
@@ -358,7 +358,7 @@
           const progress = Math.min(1, (time - startedAt) / duration);
           const point = pointAlongPath(path, progress);
 
-          paintDemoSegment(previousPoint, point, fadeStartsAt);
+          paintDemoSegment(previousPoint, point, time + fadeDelay);
           ghostCursor.style.transform = `translate3d(${point.x}px, ${point.y}px, 0)`;
           previousPoint = point;
           scheduleFrame();
