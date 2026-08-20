@@ -81,7 +81,7 @@ a:focus-visible {
 .site-nav nav a:hover,
 .site-nav nav a:focus-visible { color: var(--link); }
 
-.home .site-nav,
+.site-nav,
 .home .about {
   width: min(100%, 520px, max(320px, calc(80.03svh - 288px)));
   margin-right: auto;
