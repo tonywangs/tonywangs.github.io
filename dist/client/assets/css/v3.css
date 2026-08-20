@@ -81,6 +81,13 @@ a:focus-visible {
 .site-nav nav a:hover,
 .site-nav nav a:focus-visible { color: var(--link); }
 
+.home .site-nav,
+.home .about {
+  width: min(100%, 520px, max(320px, calc(80.03svh - 288px)));
+  margin-right: auto;
+  margin-left: auto;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -131,6 +138,8 @@ a:focus-visible {
   margin: 44px auto 0;
   isolation: isolate;
 }
+
+.home .morning { width: 100%; }
 
 .reality-image {
   position: relative;
