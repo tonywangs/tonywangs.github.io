@@ -3,13 +3,17 @@
   const reality = figure?.querySelector(".reality-image");
   const dream = figure?.querySelector(".dream-image");
   const canvas = figure?.querySelector(".dream-reveal");
+  const ghostCursor = figure?.querySelector(".ghost-cursor");
+  const demoButton = document.querySelector("[data-dream-demo]");
+  const hasFinePointer = !window.matchMedia("(pointer: coarse)").matches;
 
   if (
     !figure ||
     !reality ||
     !dream ||
     !canvas ||
-    window.matchMedia("(pointer: coarse)").matches
+    !ghostCursor ||
+    !demoButton
   ) {
     return;
   }
@@ -34,6 +38,7 @@
   let stamps = [];
   let brushPhase = 0;
   let lateralWander = 0;
+  let demoRunning = false;
 
   brushTexture.width = 256;
   brushTexture.height = 256;
@@ -90,8 +95,16 @@
     maskContext.restore();
   };
 
-  const addWake = (x, y, angle, strength = 1, speed = 0, born = performance.now()) => {
-    const baseRadius = Math.min(76, Math.max(58, width * 0.12));
+  const addWake = (
+    x,
+    y,
+    angle,
+    strength = 1,
+    speed = 0,
+    born = performance.now(),
+    lifespanScale = 1,
+  ) => {
+    const baseRadius = Math.min(84, Math.max(64, width * 0.132));
     const normalX = -Math.sin(angle);
     const normalY = Math.cos(angle);
     const directionX = Math.cos(angle);
@@ -126,7 +139,7 @@
       lobeStrengthB: randomBetween(0.32, 0.58),
       strength,
       born,
-      lifespan: randomBetween(2650, 3300),
+      lifespan: randomBetween(4700, 5800) * lifespanScale,
     });
 
     if (stamps.length > 700) {
@@ -230,6 +243,144 @@
     lastPoint = nextPoint;
   };
 
+  const paintDemoSegment = (from, to, born) => {
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    const distance = Math.hypot(dx, dy);
+
+    if (distance < 0.5) {
+      return;
+    }
+
+    const angle = Math.atan2(dy, dx);
+    const steps = Math.max(1, Math.ceil(distance / randomBetween(12, 17)));
+
+    for (let step = 1; step <= steps; step += 1) {
+      const progress = step / steps;
+      addWake(
+        from.x + dx * progress,
+        from.y + dy * progress,
+        angle,
+        randomBetween(0.9, 1),
+        distance,
+        born,
+        1.2,
+      );
+    }
+  };
+
+  const buildDemoPath = () => {
+    const baseRadius = Math.min(84, Math.max(64, width * 0.132));
+    let rowCount = Math.max(7, Math.ceil(height / (baseRadius * 0.96)));
+
+    if (rowCount % 2 === 0) {
+      rowCount += 1;
+    }
+
+    const paddingX = Math.min(24, baseRadius * 0.34);
+    const paddingY = Math.min(18, baseRadius * 0.24);
+    const points = [];
+
+    for (let row = 0; row < rowCount; row += 1) {
+      const progress = rowCount === 1 ? 0 : row / (rowCount - 1);
+      const y = paddingY + (height - paddingY * 2) * progress;
+      const startsLeft = row % 2 === 0;
+      const startX = startsLeft ? paddingX : width - paddingX;
+      const endX = startsLeft ? width - paddingX : paddingX;
+
+      points.push({ x: startX, y });
+      points.push({ x: endX, y });
+    }
+
+    const segments = [];
+    let totalLength = 0;
+
+    for (let index = 1; index < points.length; index += 1) {
+      const from = points[index - 1];
+      const to = points[index];
+      const length = Math.hypot(to.x - from.x, to.y - from.y);
+      segments.push({ from, to, length, startsAt: totalLength });
+      totalLength += length;
+    }
+
+    return { points, segments, totalLength };
+  };
+
+  const pointAlongPath = (path, progress) => {
+    const targetDistance = path.totalLength * progress;
+    const segment =
+      path.segments.find(
+        (candidate) => targetDistance <= candidate.startsAt + candidate.length,
+      ) || path.segments[path.segments.length - 1];
+    const segmentProgress = segment.length
+      ? (targetDistance - segment.startsAt) / segment.length
+      : 0;
+
+    return {
+      x: segment.from.x + (segment.to.x - segment.from.x) * segmentProgress,
+      y: segment.from.y + (segment.to.y - segment.from.y) * segmentProgress,
+    };
+  };
+
+  const runDemo = () => {
+    if (demoRunning || !width || !height) {
+      return;
+    }
+
+    const bounds = figure.getBoundingClientRect();
+    const needsScroll = bounds.top < 0 || bounds.bottom > window.innerHeight;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    demoRunning = true;
+    demoButton.setAttribute("aria-disabled", "true");
+    pointer.active = false;
+    lastPoint = null;
+
+    if (needsScroll) {
+      figure.scrollIntoView({
+        behavior: reducedMotion ? "auto" : "smooth",
+        block: "center",
+      });
+    }
+
+    window.setTimeout(
+      () => {
+        const path = buildDemoPath();
+        const duration = reducedMotion ? 850 : 1750;
+        const startedAt = performance.now();
+        const fadeStartsAt = startedAt + duration;
+        let previousPoint = path.points[0];
+
+        figure.classList.add("demo-running");
+        ghostCursor.style.transform = `translate3d(${previousPoint.x}px, ${previousPoint.y}px, 0)`;
+
+        const animate = (time) => {
+          const progress = Math.min(1, (time - startedAt) / duration);
+          const point = pointAlongPath(path, progress);
+
+          paintDemoSegment(previousPoint, point, fadeStartsAt);
+          ghostCursor.style.transform = `translate3d(${point.x}px, ${point.y}px, 0)`;
+          previousPoint = point;
+          scheduleFrame();
+
+          if (progress < 1) {
+            window.requestAnimationFrame(animate);
+            return;
+          }
+
+          window.setTimeout(() => {
+            figure.classList.remove("demo-running");
+            demoButton.removeAttribute("aria-disabled");
+            demoRunning = false;
+          }, 180);
+        };
+
+        window.requestAnimationFrame(animate);
+      },
+      needsScroll && !reducedMotion ? 360 : 0,
+    );
+  };
+
   const eventPoint = (event) => {
     const bounds = reality.getBoundingClientRect();
     return {
@@ -288,43 +439,47 @@
     }
   }
 
-  figure.addEventListener("pointerenter", (event) => {
-    if (event.pointerType === "touch") {
-      return;
-    }
+  if (hasFinePointer) {
+    figure.addEventListener("pointerenter", (event) => {
+      if (event.pointerType === "touch" || demoRunning) {
+        return;
+      }
 
-    const point = eventPoint(event);
-    pointer.active = true;
-    pointer.x = point.x;
-    pointer.y = point.y;
-    lastPoint = null;
-    paintTo(point.x, point.y);
-    scheduleFrame();
-  });
-
-  figure.addEventListener("pointermove", (event) => {
-    if (event.pointerType === "touch") {
-      return;
-    }
-
-    const events = event.getCoalescedEvents?.() || [event];
-
-    for (const coalescedEvent of events) {
-      const point = eventPoint(coalescedEvent);
+      const point = eventPoint(event);
+      pointer.active = true;
       pointer.x = point.x;
       pointer.y = point.y;
+      lastPoint = null;
       paintTo(point.x, point.y);
-    }
+      scheduleFrame();
+    });
 
-    pointer.active = true;
-    scheduleFrame();
-  });
+    figure.addEventListener("pointermove", (event) => {
+      if (event.pointerType === "touch" || demoRunning) {
+        return;
+      }
 
-  figure.addEventListener("pointerleave", () => {
-    pointer.active = false;
-    lastPoint = null;
-    scheduleFrame();
-  });
+      const events = event.getCoalescedEvents?.() || [event];
+
+      for (const coalescedEvent of events) {
+        const point = eventPoint(coalescedEvent);
+        pointer.x = point.x;
+        pointer.y = point.y;
+        paintTo(point.x, point.y);
+      }
+
+      pointer.active = true;
+      scheduleFrame();
+    });
+
+    figure.addEventListener("pointerleave", () => {
+      pointer.active = false;
+      lastPoint = null;
+      scheduleFrame();
+    });
+  }
+
+  demoButton.addEventListener("click", runDemo);
 
   const resizeObserver = new ResizeObserver(syncCanvas);
   resizeObserver.observe(reality);
