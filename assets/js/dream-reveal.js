@@ -17,22 +17,37 @@
   const outputContext = canvas.getContext("2d", { alpha: true });
   const maskCanvas = document.createElement("canvas");
   const maskContext = maskCanvas.getContext("2d");
+  const brushTexture = document.createElement("canvas");
+  const brushContext = brushTexture.getContext("2d");
 
-  if (!outputContext || !maskContext) {
+  if (!outputContext || !maskContext || !brushContext) {
     return;
   }
 
   const pointer = { active: false, x: 0, y: 0, angle: 0 };
-  const decayTime = 760;
   let width = 0;
   let height = 0;
   let ratio = 1;
   let frame = 0;
-  let lastFrameTime = 0;
   let lastHoldTime = 0;
   let lastPoint = null;
-  let trailEnergy = 0;
-  let brushIndex = 0;
+  let stamps = [];
+  let brushPhase = 0;
+  let lateralWander = 0;
+
+  brushTexture.width = 256;
+  brushTexture.height = 256;
+  const brushGradient = brushContext.createRadialGradient(128, 128, 0, 128, 128, 128);
+  brushGradient.addColorStop(0, "rgba(255, 255, 255, 0.98)");
+  brushGradient.addColorStop(0.26, "rgba(255, 255, 255, 0.9)");
+  brushGradient.addColorStop(0.6, "rgba(255, 255, 255, 0.36)");
+  brushGradient.addColorStop(0.84, "rgba(255, 255, 255, 0.07)");
+  brushGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+  brushContext.fillStyle = brushGradient;
+  brushContext.fillRect(0, 0, 256, 256);
+
+  const randomBetween = (minimum, maximum) =>
+    minimum + Math.random() * (maximum - minimum);
 
   const scheduleFrame = () => {
     if (!frame) {
@@ -51,80 +66,137 @@
     outputContext.restore();
   };
 
-  const paintEllipse = (
+  const paintBrush = (
     x,
     y,
     radius,
     stretchX,
     stretchY,
     angle,
-    strength,
+    opacity,
   ) => {
-    const gradient = maskContext.createRadialGradient(0, 0, 0, 0, 0, radius);
-    gradient.addColorStop(0, `rgba(255, 255, 255, ${0.96 * strength})`);
-    gradient.addColorStop(0.28, `rgba(255, 255, 255, ${0.84 * strength})`);
-    gradient.addColorStop(0.62, `rgba(255, 255, 255, ${0.32 * strength})`);
-    gradient.addColorStop(0.84, `rgba(255, 255, 255, ${0.08 * strength})`);
-    gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
-
     maskContext.save();
     maskContext.translate(x, y);
     maskContext.rotate(angle);
     maskContext.scale(stretchX, stretchY);
-    maskContext.fillStyle = gradient;
-    maskContext.fillRect(-radius, -radius, radius * 2, radius * 2);
+    maskContext.globalAlpha = Math.min(1, Math.max(0, opacity));
+    maskContext.drawImage(
+      brushTexture,
+      -radius,
+      -radius,
+      radius * 2,
+      radius * 2,
+    );
     maskContext.restore();
   };
 
-  const stampWake = (x, y, angle, strength = 1, speed = 0) => {
-    brushIndex += 1;
-    const radius = Math.min(58, Math.max(43, width * 0.078));
+  const addWake = (x, y, angle, strength = 1, speed = 0, born = performance.now()) => {
+    const baseRadius = Math.min(76, Math.max(58, width * 0.12));
     const normalX = -Math.sin(angle);
     const normalY = Math.cos(angle);
     const directionX = Math.cos(angle);
     const directionY = Math.sin(angle);
-    const curl = Math.sin(brushIndex * 1.73) * radius * 0.2;
-    const counterCurl = Math.cos(brushIndex * 1.11) * radius * 0.17;
-    const velocityStretch = Math.min(0.28, speed / 90);
 
-    paintEllipse(
-      x,
-      y,
+    brushPhase += randomBetween(0.36, 0.82);
+    lateralWander =
+      lateralWander * 0.72 + randomBetween(-baseRadius * 0.24, baseRadius * 0.24);
+
+    const sizeWave = Math.sin(brushPhase) * 0.22;
+    const sizeNoise = randomBetween(-0.16, 0.16);
+    const radius = baseRadius * Math.min(1.34, Math.max(0.68, 1 + sizeWave + sizeNoise));
+    const angleNoise = randomBetween(-0.28, 0.28);
+    const alongJitter = randomBetween(-radius * 0.14, radius * 0.14);
+    const crossJitter = lateralWander + randomBetween(-radius * 0.12, radius * 0.12);
+    const velocityStretch = Math.min(0.34, speed / 105);
+
+    stamps.push({
+      x: x + directionX * alongJitter + normalX * crossJitter,
+      y: y + directionY * alongJitter + normalY * crossJitter,
+      angle: angle + angleNoise,
       radius,
-      1.24 + velocityStretch,
-      0.68,
-      angle,
+      stretchX: randomBetween(1.12, 1.5) + velocityStretch,
+      stretchY: randomBetween(0.58, 0.82),
+      curl: randomBetween(-0.38, 0.38),
+      counterCurl: randomBetween(-0.34, 0.34),
+      backwash: randomBetween(0.12, 0.42),
+      lobeScaleA: randomBetween(0.42, 0.68),
+      lobeScaleB: randomBetween(0.32, 0.56),
+      lobeStretchA: randomBetween(0.92, 1.16),
+      lobeStrengthA: randomBetween(0.42, 0.7),
+      lobeStrengthB: randomBetween(0.32, 0.58),
       strength,
+      born,
+      lifespan: randomBetween(2650, 3300),
+    });
+
+    if (stamps.length > 700) {
+      stamps = stamps.slice(-700);
+    }
+  };
+
+  const drawStamp = (stamp, opacity) => {
+    const normalX = -Math.sin(stamp.angle);
+    const normalY = Math.cos(stamp.angle);
+    const directionX = Math.cos(stamp.angle);
+    const directionY = Math.sin(stamp.angle);
+    const visibleStrength = opacity * stamp.strength;
+
+    paintBrush(
+      stamp.x,
+      stamp.y,
+      stamp.radius,
+      stamp.stretchX,
+      stamp.stretchY,
+      stamp.angle,
+      visibleStrength,
     );
 
-    paintEllipse(
-      x + normalX * curl - directionX * radius * 0.12,
-      y + normalY * curl - directionY * radius * 0.12,
-      radius * 0.56,
-      1.08,
+    paintBrush(
+      stamp.x + normalX * stamp.radius * stamp.curl - directionX * stamp.radius * 0.08,
+      stamp.y + normalY * stamp.radius * stamp.curl - directionY * stamp.radius * 0.08,
+      stamp.radius * stamp.lobeScaleA,
+      stamp.lobeStretchA,
       0.62,
-      angle + 0.7,
-      strength * 0.58,
+      stamp.angle + 0.72,
+      visibleStrength * stamp.lobeStrengthA,
     );
 
-    paintEllipse(
-      x - normalX * counterCurl - directionX * radius * 0.3,
-      y - normalY * counterCurl - directionY * radius * 0.3,
-      radius * 0.43,
-      1.32,
+    paintBrush(
+      stamp.x - normalX * stamp.radius * stamp.counterCurl - directionX * stamp.radius * stamp.backwash,
+      stamp.y - normalY * stamp.radius * stamp.counterCurl - directionY * stamp.radius * stamp.backwash,
+      stamp.radius * stamp.lobeScaleB,
+      1.28,
       0.48,
-      angle - 0.82,
-      strength * 0.46,
+      stamp.angle - 0.86,
+      visibleStrength * stamp.lobeStrengthB,
     );
+  };
 
-    trailEnergy = 1;
+  const rebuildMask = (time) => {
+    maskContext.clearRect(0, 0, width, height);
+    const livingStamps = [];
+
+    for (const stamp of stamps) {
+      const progress = Math.max(0, (time - stamp.born) / stamp.lifespan);
+
+      if (progress >= 1) {
+        continue;
+      }
+
+      const remainder = Math.max(0, 1 - progress);
+      const opacity = remainder * remainder * (3 - 2 * remainder);
+      drawStamp(stamp, opacity);
+      livingStamps.push(stamp);
+    }
+
+    stamps = livingStamps;
   };
 
   const paintTo = (x, y) => {
     const nextPoint = { x, y };
 
     if (!lastPoint) {
-      stampWake(x, y, pointer.angle, 0.9);
+      addWake(x, y, pointer.angle, 0.92);
       lastPoint = nextPoint;
       return;
     }
@@ -133,21 +205,24 @@
     const dy = y - lastPoint.y;
     const distance = Math.hypot(dx, dy);
 
-    if (distance < 0.5) {
+    if (distance < 0.75) {
       return;
     }
 
     const angle = Math.atan2(dy, dx);
-    const steps = Math.max(1, Math.ceil(distance / 11));
+    const spacing = randomBetween(13, 20);
+    const steps = Math.max(1, Math.ceil(distance / spacing));
+    const born = performance.now();
 
     for (let step = 1; step <= steps; step += 1) {
       const progress = step / steps;
-      stampWake(
+      addWake(
         lastPoint.x + dx * progress,
         lastPoint.y + dy * progress,
         angle,
-        1,
+        randomBetween(0.84, 1),
         distance,
+        born + step * 2,
       );
     }
 
@@ -181,45 +256,35 @@
     maskCanvas.width = width;
     maskCanvas.height = height;
 
-    maskContext.clearRect(0, 0, width, height);
-    trailEnergy = 0;
+    stamps = [];
     lastPoint = null;
+    lateralWander = 0;
+    maskContext.clearRect(0, 0, width, height);
     drawReality();
     figure.classList.add("is-reveal-ready");
   };
 
   function render(time) {
     frame = 0;
-    const elapsed = lastFrameTime ? Math.min(64, time - lastFrameTime) : 16;
-    lastFrameTime = time;
 
-    if (pointer.active && time - lastHoldTime > 86) {
-      const drift = time * 0.0024;
-      stampWake(
-        pointer.x + Math.sin(drift * 1.7) * 3,
-        pointer.y + Math.cos(drift * 1.3) * 3,
-        pointer.angle + Math.sin(drift) * 0.32,
-        0.1,
+    if (pointer.active && time - lastHoldTime > 112) {
+      const drift = time * 0.0021;
+      addWake(
+        pointer.x + Math.sin(drift * 1.7) * 7,
+        pointer.y + Math.cos(drift * 1.23) * 7,
+        pointer.angle + randomBetween(-0.42, 0.42),
+        0.13,
+        0,
+        time,
       );
       lastHoldTime = time;
     }
 
-    const fadeAmount = 1 - Math.exp(-elapsed / decayTime);
-    maskContext.save();
-    maskContext.globalCompositeOperation = "destination-out";
-    maskContext.fillStyle = `rgba(0, 0, 0, ${fadeAmount})`;
-    maskContext.fillRect(0, 0, width, height);
-    maskContext.restore();
-    trailEnergy *= Math.exp(-elapsed / decayTime);
-
+    rebuildMask(time);
     drawReality();
 
-    if (pointer.active || trailEnergy > 0.018) {
+    if (pointer.active || stamps.length) {
       scheduleFrame();
-    } else {
-      maskContext.clearRect(0, 0, width, height);
-      drawReality();
-      lastFrameTime = 0;
     }
   }
 
