@@ -1,0 +1,8 @@
+{
+  "name": "tony-wang-v3",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node -e \"const fs = require('node:fs'); for (const file of ['dist/server/index.js', 'dist/client/index.html']) { if (!fs.existsSync(file)) throw new Error('Missing ' + file); }\""
+  }
+}
