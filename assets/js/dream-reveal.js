@@ -12,8 +12,7 @@
     !reality ||
     !dream ||
     !canvas ||
-    !ghostCursor ||
-    !demoButton
+    !ghostCursor
   ) {
     return;
   }
@@ -60,12 +59,34 @@
     }
   };
 
+  const drawImageCover = (context, image, targetWidth, targetHeight) => {
+    const sourceWidth = image.naturalWidth || targetWidth;
+    const sourceHeight = image.naturalHeight || targetHeight;
+    const scale = Math.max(targetWidth / sourceWidth, targetHeight / sourceHeight);
+    const cropWidth = targetWidth / scale;
+    const cropHeight = targetHeight / scale;
+    const sourceX = Math.max(0, (sourceWidth - cropWidth) * 0.5);
+    const sourceY = Math.max(0, (sourceHeight - cropHeight) * 0.48);
+
+    context.drawImage(
+      image,
+      sourceX,
+      sourceY,
+      cropWidth,
+      cropHeight,
+      0,
+      0,
+      targetWidth,
+      targetHeight,
+    );
+  };
+
   const drawReality = () => {
     outputContext.save();
     outputContext.setTransform(ratio, 0, 0, ratio, 0, 0);
     outputContext.clearRect(0, 0, width, height);
     outputContext.globalCompositeOperation = "source-over";
-    outputContext.drawImage(reality, 0, 0, width, height);
+    drawImageCover(outputContext, reality, width, height);
     outputContext.globalCompositeOperation = "destination-out";
     outputContext.drawImage(maskCanvas, 0, 0, width, height);
     outputContext.restore();
@@ -332,7 +353,7 @@
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     demoRunning = true;
-    demoButton.setAttribute("aria-disabled", "true");
+    demoButton?.setAttribute("aria-disabled", "true");
     pointer.active = false;
     lastPoint = null;
 
@@ -370,7 +391,7 @@
 
           window.setTimeout(() => {
             figure.classList.remove("demo-running");
-            demoButton.removeAttribute("aria-disabled");
+            demoButton?.removeAttribute("aria-disabled");
             demoRunning = false;
           }, 180);
         };
@@ -479,7 +500,7 @@
     });
   }
 
-  demoButton.addEventListener("click", runDemo);
+  demoButton?.addEventListener("click", runDemo);
 
   const resizeObserver = new ResizeObserver(syncCanvas);
   resizeObserver.observe(reality);
