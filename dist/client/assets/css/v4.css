@@ -100,11 +100,7 @@ a:focus-visible {
   height: 100%;
   object-fit: cover;
   object-position: center 48%;
-  transition: transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-
-.image-stage:hover .reality-image,
-.image-stage:hover .dream-image { transform: scale(1.006); }
 
 .reality-image { z-index: 1; }
 .dream-image { z-index: 0; }

@@ -417,16 +417,16 @@
 
     figure.classList.remove("is-reveal-ready");
     const bounds = reality.getBoundingClientRect();
-    width = Math.max(1, Math.round(bounds.width));
-    height = Math.max(1, Math.round(bounds.height));
+    width = Math.max(1, bounds.width);
+    height = Math.max(1, bounds.height);
     ratio = Math.min(window.devicePixelRatio || 1, 2);
 
     canvas.width = Math.round(width * ratio);
     canvas.height = Math.round(height * ratio);
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
-    maskCanvas.width = width;
-    maskCanvas.height = height;
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    maskCanvas.width = Math.round(width);
+    maskCanvas.height = Math.round(height);
 
     stamps = [];
     lastPoint = null;
