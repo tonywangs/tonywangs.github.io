@@ -266,8 +266,9 @@ h1 {
   bottom: 5px;
   left: 0;
   width: clamp(178px, 18vw, 232px);
+  opacity: 0;
   transform: translate3d(-100%, 0, 0);
-  will-change: left, transform;
+  will-change: left, opacity, transform;
 }
 
 .sledder img {
@@ -308,10 +309,18 @@ h1 {
 @keyframes sled-across {
   0% {
     left: 0;
+    opacity: 0;
     transform: translate3d(-100%, 0, 0);
   }
-  60%, 100% {
+  10%, 50% { opacity: 1; }
+  60% {
     left: 100%;
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
     transform: translate3d(0, 0, 0);
   }
 }
@@ -370,6 +379,7 @@ h1 {
 
   .sledder {
     left: 50%;
+    opacity: 1;
     transform: translate3d(-50%, 0, 0);
   }
 }
