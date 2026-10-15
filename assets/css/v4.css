@@ -60,7 +60,8 @@ a:focus-visible {
   display: grid;
   grid-template-columns: minmax(0, 1.3fr) minmax(370px, 0.9fr);
   align-items: start;
-  gap: clamp(64px, 7vw, 96px);
+  column-gap: clamp(64px, 7vw, 96px);
+  row-gap: 0;
   width: min(calc(100% - 72px), 1200px);
   margin: 0 auto;
   padding: 72px 0 112px;
@@ -248,6 +249,47 @@ h1 {
 .elsewhere a:hover { color: var(--link); }
 .elsewhere span { color: #b1b6bf; }
 
+.sled-run {
+  position: relative;
+  grid-column: 1 / -1;
+  grid-row: 2;
+  width: 100vw;
+  height: clamp(126px, 13vw, 164px);
+  margin-top: clamp(18px, 3vw, 42px);
+  margin-left: calc(50% - 50vw);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sled-run::after {
+  position: absolute;
+  right: 0;
+  bottom: 12px;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 3%, #edf1f6 18%, #e4e9f0 50%, #edf1f6 82%, transparent 97%);
+  content: "";
+}
+
+.sledder {
+  position: absolute;
+  z-index: 1;
+  bottom: 5px;
+  left: 0;
+  width: clamp(178px, 18vw, 232px);
+  transform: translate3d(-120%, 0, 0);
+  will-change: transform;
+}
+
+.sledder img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 7px 5px rgba(32, 38, 48, 0.08));
+  transform: rotate(-1.5deg);
+  transform-origin: 58% 78%;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .morning { animation: settle-in 660ms 40ms both cubic-bezier(0.2, 0.7, 0.2, 1); }
 
@@ -259,6 +301,9 @@ h1 {
   .about > :nth-child(5) { animation-delay: 250ms; }
   .about > :nth-child(6) { animation-delay: 295ms; }
   .about > :nth-child(7) { animation-delay: 340ms; }
+
+  .sledder { animation: sled-across 16s 900ms linear infinite; }
+  .sledder img { animation: sled-bob 430ms ease-in-out infinite alternate; }
 }
 
 @keyframes rise-in {
@@ -269,6 +314,16 @@ h1 {
 @keyframes settle-in {
   from { opacity: 0; transform: translateY(8px) scale(0.995); }
   to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes sled-across {
+  0%, 7% { transform: translate3d(-120%, 0, 0); }
+  64%, 100% { transform: translate3d(calc(100vw + 120%), 0, 0); }
+}
+
+@keyframes sled-bob {
+  from { transform: translateY(0) rotate(-1.5deg); }
+  to { transform: translateY(-3px) rotate(0.75deg); }
 }
 
 @media (max-width: 880px) {
@@ -296,6 +351,11 @@ h1 {
   }
 
   .github-activity { margin-top: 34px; }
+
+  .sled-run {
+    height: 132px;
+    margin-top: 52px;
+  }
 }
 
 @media (max-width: 560px) {
@@ -311,5 +371,10 @@ h1 {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .sledder {
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
   }
 }
