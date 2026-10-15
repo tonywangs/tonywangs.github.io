@@ -253,10 +253,9 @@ h1 {
   position: relative;
   grid-column: 1 / -1;
   grid-row: 2;
-  width: 100vw;
+  width: 100%;
   height: clamp(126px, 13vw, 164px);
   margin-top: clamp(18px, 3vw, 42px);
-  margin-left: calc(50% - 50vw);
   overflow: hidden;
   pointer-events: none;
 }
@@ -267,8 +266,8 @@ h1 {
   bottom: 5px;
   left: 0;
   width: clamp(178px, 18vw, 232px);
-  transform: translate3d(-120%, 0, 0);
-  will-change: transform;
+  transform: translate3d(-100%, 0, 0);
+  will-change: left, transform;
 }
 
 .sledder img {
@@ -307,8 +306,14 @@ h1 {
 }
 
 @keyframes sled-across {
-  0% { transform: translate3d(-85%, 0, 0); }
-  60%, 100% { transform: translate3d(calc(100vw + 110%), 0, 0); }
+  0% {
+    left: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+  60%, 100% {
+    left: 100%;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 @keyframes sled-bob {
