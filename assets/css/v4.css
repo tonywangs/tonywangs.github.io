@@ -261,16 +261,6 @@ h1 {
   pointer-events: none;
 }
 
-.sled-run::after {
-  position: absolute;
-  right: 0;
-  bottom: 12px;
-  left: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 3%, #edf1f6 18%, #e4e9f0 50%, #edf1f6 82%, transparent 97%);
-  content: "";
-}
-
 .sledder {
   position: absolute;
   z-index: 1;
@@ -302,7 +292,7 @@ h1 {
   .about > :nth-child(6) { animation-delay: 295ms; }
   .about > :nth-child(7) { animation-delay: 340ms; }
 
-  .sledder { animation: sled-across 16s 900ms linear infinite; }
+  .sledder { animation: sled-across 14s 120ms linear infinite; }
   .sledder img { animation: sled-bob 430ms ease-in-out infinite alternate; }
 }
 
@@ -317,8 +307,8 @@ h1 {
 }
 
 @keyframes sled-across {
-  0%, 7% { transform: translate3d(-120%, 0, 0); }
-  64%, 100% { transform: translate3d(calc(100vw + 120%), 0, 0); }
+  0% { transform: translate3d(-85%, 0, 0); }
+  60%, 100% { transform: translate3d(calc(100vw + 110%), 0, 0); }
 }
 
 @keyframes sled-bob {
