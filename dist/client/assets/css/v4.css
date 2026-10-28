@@ -56,7 +56,7 @@ body {
 .theme-toggle {
   position: fixed;
   top: 22px;
-  right: 24px;
+  right: max(36px, calc((100vw - 1200px) / 2));
   z-index: 20;
   display: inline-flex;
   align-items: center;
@@ -406,6 +406,10 @@ h1 {
 
   .morning {
     width: 100%;
+  }
+
+  .theme-toggle {
+    right: 16px;
   }
 
   h1 { margin-bottom: 26px; }
