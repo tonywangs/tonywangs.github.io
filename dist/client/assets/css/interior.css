@@ -328,6 +328,10 @@ a:focus-visible {
   max-width: 760px;
 }
 
+.projects-page .page-note {
+  border-bottom: 0;
+}
+
 .project-post {
   position: relative;
   padding: 35px 0 39px;
