@@ -11,6 +11,10 @@
   const applyTheme = (theme) => {
     root.dataset.theme = theme;
     root.style.colorScheme = theme;
+    document.querySelectorAll('link[rel="icon"]').forEach((icon) => {
+      icon.href = theme === "dark" ? "images/teal-slash-favicon.png" : "images/teal-slash-favicon-light.svg";
+      icon.type = theme === "dark" ? "image/png" : "image/svg+xml";
+    });
   };
 
   const updateToggle = (button, theme) => {
@@ -23,6 +27,7 @@
   applyTheme(initialTheme);
 
   const bindToggles = () => {
+    applyTheme(root.dataset.theme);
     document.querySelectorAll(".theme-toggle").forEach((button) => {
       updateToggle(button, root.dataset.theme);
       button.addEventListener("click", () => {
