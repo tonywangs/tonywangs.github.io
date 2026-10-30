@@ -207,10 +207,6 @@ a:focus-visible {
   background: var(--link);
 }
 
-.p-body {
-  animation: page-enter 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
 .page-heading {
   margin: 0 0 7px;
   font-size: clamp(1.04rem, 0.98rem + 0.2vw, 1.16rem);
