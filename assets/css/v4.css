@@ -130,7 +130,7 @@ a:focus-visible {
   row-gap: 0;
   width: min(calc(100% - 72px), 1200px);
   margin: 0 auto;
-  padding: 72px 0 112px;
+  padding: 100px 0 112px;
 }
 
 .morning {
@@ -325,40 +325,6 @@ h1 {
 .elsewhere a:hover { color: var(--link); }
 .elsewhere span { color: #b1b6bf; }
 
-.sled-run {
-  position: relative;
-  grid-column: 1 / -1;
-  grid-row: 2;
-  width: 100%;
-  height: clamp(126px, 13vw, 164px);
-  margin-top: clamp(18px, 3vw, 42px);
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.sledder {
-  position: absolute;
-  z-index: 1;
-  bottom: 5px;
-  left: 0;
-  width: clamp(178px, 18vw, 232px);
-  opacity: 0;
-  transform: translate3d(-100%, 0, 0);
-  will-change: opacity, transform;
-}
-
-.sledder img {
-  display: block;
-  width: 100%;
-  height: auto;
-  filter:
-    grayscale(1)
-    contrast(1.18)
-    brightness(1.02)
-    drop-shadow(0 7px 5px rgba(32, 38, 48, 0.07));
-  transform: rotate(-1.5deg);
-  transform-origin: 58% 78%;
-}
 
 @media (prefers-reduced-motion: no-preference) {
   .morning { animation: settle-in 660ms 40ms both cubic-bezier(0.2, 0.7, 0.2, 1); }
@@ -372,7 +338,6 @@ h1 {
   .about > :nth-child(6) { animation-delay: 295ms; }
   .about > :nth-child(7) { animation-delay: 340ms; }
 
-  .sledder img { animation: sled-bob 430ms ease-in-out infinite alternate; }
 }
 
 @keyframes rise-in {
@@ -385,16 +350,11 @@ h1 {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-@keyframes sled-bob {
-  from { transform: translateY(0) rotate(-1.5deg); }
-  to { transform: translateY(-3px) rotate(0.75deg); }
-}
-
 @media (max-width: 880px) {
   .page {
     display: block;
     width: min(calc(100% - 32px), 980px);
-    padding-top: 16px;
+    padding-top: 32px;
     padding-bottom: 72px;
   }
 
@@ -424,10 +384,6 @@ h1 {
 
   .github-activity { margin-top: 34px; }
 
-  .sled-run {
-    height: 132px;
-    margin-top: 52px;
-  }
 }
 
 @media (max-width: 560px) {
@@ -445,9 +401,4 @@ h1 {
     transition-duration: 0.01ms !important;
   }
 
-  .sledder {
-    left: 50%;
-    opacity: 1;
-    transform: translate3d(-50%, 0, 0);
-  }
 }
