@@ -29,17 +29,22 @@
   <link rel="canonical" href="https://tonywang.xyz/">
   <link rel="preload" as="image" href="images/sf-sunset.jpg" fetchpriority="high">
   <link rel="preload" as="image" href="images/sf-sunset-fantasy.png">
-  <link rel="stylesheet" href="assets/css/v4.css?v=20261031-1">
+  <link rel="stylesheet" href="assets/css/v4.css?v=20261103-1">
   <link rel="stylesheet" href="assets/css/transitions.css?v=20261015-1">
   <title>Tony Wang</title>
 </head>
 
 <body>
   <main class="page">
-    <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode">
-      <span class="theme-toggle-dot" aria-hidden="true"></span>
-      <span class="theme-toggle-copy">dark</span>
-    </button>
+    <svg class="chart-filters" width="0" height="0" aria-hidden="true">
+      <filter id="quiet-empty-days" color-interpolation-filters="sRGB">
+        <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 12 4 0 -16.8"/>
+        <feComposite in2="SourceAlpha" operator="in" result="brightCells"/>
+        <feFlood class="empty-day-color"/>
+        <feComposite in2="brightCells" operator="in"/>
+        <feComposite in2="SourceGraphic" operator="over"/>
+      </filter>
+    </svg>
     <figure class="morning">
       <div class="image-stage" data-dream-reveal>
         <img class="dream-image" src="images/sf-sunset-fantasy.png" alt="" width="1086" height="1448" aria-hidden="true">
@@ -104,7 +109,11 @@
         <a href="https://www.linkedin.com/in/tony-wang-/">linkedin</a><span aria-hidden="true">·</span>
         <a href="https://twitter.com/TonyW__">x</a><span aria-hidden="true">·</span>
         <a href="https://tonywang.substack.com/">substack</a><span aria-hidden="true">·</span>
-        <a href="https://2025tonywang.vercel.app">old website</a>
+        <a href="https://2025tonywang.vercel.app">old website</a><span aria-hidden="true">·</span>
+        <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode">
+          <span class="theme-toggle-dot" aria-hidden="true"></span>
+          <span class="theme-toggle-copy">dark</span>
+        </button>
       </nav>
     </article>
 

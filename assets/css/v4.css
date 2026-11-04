@@ -54,10 +54,6 @@ body {
 }
 
 .theme-toggle {
-  position: fixed;
-  top: 22px;
-  right: max(36px, calc((100vw - 1200px) / 2));
-  z-index: 20;
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -105,6 +101,7 @@ body {
 
 a {
   color: var(--link);
+  text-decoration: none;
   text-decoration-thickness: 1px;
   text-decoration-color: color-mix(in srgb, currentColor 58%, transparent);
   text-underline-offset: 0.15em;
@@ -272,18 +269,7 @@ h1 {
 .github-chart-link {
   display: block;
   overflow: hidden;
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-  background: linear-gradient(180deg, var(--paper) 0%, var(--blue-wash) 100%);
-  box-shadow: 0 1px 2px rgba(17, 24, 39, 0.035);
   text-decoration: none;
-  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
-}
-
-.github-chart-link:hover {
-  border-color: #cfdaf0;
-  box-shadow: 0 14px 30px -24px rgba(37, 99, 235, 0.55);
-  transform: translateY(-2px);
 }
 
 .github-chart-link:focus-visible {
@@ -293,7 +279,6 @@ h1 {
 
 .github-chart-scroll {
   display: block;
-  padding: 12px 14px 9px;
   overflow-x: auto;
   scrollbar-width: thin;
   scrollbar-color: #cbd5e1 transparent;
@@ -303,7 +288,12 @@ h1 {
   display: block;
   width: 100%;
   height: auto;
+  filter: url(#quiet-empty-days);
 }
+
+.chart-filters { position: absolute; }
+.empty-day-color { flood-color: #d8dde5; }
+:root[data-theme="dark"] .empty-day-color { flood-color: #303945; }
 
 .elsewhere {
   display: flex;
@@ -311,8 +301,6 @@ h1 {
   align-items: center;
   gap: 5px 10px;
   margin-top: 28px;
-  padding-top: 18px;
-  border-top: 1px solid var(--rule);
   color: var(--muted);
   font-size: 0.88rem;
 }
@@ -368,9 +356,6 @@ h1 {
     width: 100%;
   }
 
-  .theme-toggle {
-    right: 16px;
-  }
 
   h1 { margin-bottom: 26px; }
 
@@ -387,7 +372,6 @@ h1 {
 }
 
 @media (max-width: 560px) {
-  .github-chart-scroll { padding: 10px 12px 8px; }
   .github-chart { min-width: 560px; }
 }
 
