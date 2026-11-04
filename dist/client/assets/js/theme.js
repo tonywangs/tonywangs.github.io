@@ -1,12 +1,11 @@
 (() => {
   const storageKey = "tony-theme";
   const root = document.documentElement;
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
 
   const storedTheme = localStorage.getItem(storageKey);
   const initialTheme = storedTheme === "dark" || storedTheme === "light"
     ? storedTheme
-    : (prefersDark.matches ? "dark" : "light");
+    : "light";
 
   const applyTheme = (theme) => {
     root.dataset.theme = theme;

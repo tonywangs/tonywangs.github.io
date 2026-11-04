@@ -20,18 +20,20 @@
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G‑EF518STZBY"></script>
   <script src="assets/js/analytics.js"></script>
-  <script src="assets/js/theme.js?v=20261029-1"></script>
+  <script src="assets/js/theme.js?v=20261103-light-default"></script>
   <script defer src="assets/js/link-targets.js?v=20261013-1"></script>
   <script defer src="assets/js/page-transitions.js?v=20261015-1"></script>
+  <script defer src="assets/js/sunset-links.js?v=20261103-3"></script>
   <script defer src="assets/js/dream-reveal.js?v=20261013-1"></script>
 
   <link rel="icon" href="images/teal-slash-favicon.png">
   <link rel="canonical" href="https://tonywang.xyz/">
   <link rel="preload" as="image" href="images/sf-sunset.jpg" fetchpriority="high">
   <link rel="preload" as="image" href="images/sf-sunset-fantasy.png">
-  <link rel="stylesheet" href="assets/css/v4.css?v=20261103-4">
+  <link rel="stylesheet" href="assets/css/v4.css?v=20261103-editorial-aligned">
   <link rel="stylesheet" href="assets/css/transitions.css?v=20261103-3">
   <title>Tony Wang</title>
+  <script defer src="assets/js/editorial-layout.js?v=1"></script>
 </head>
 
 <body>
@@ -45,17 +47,9 @@
         <feComposite in2="SourceGraphic" operator="over"/>
       </filter>
     </svg>
-    <figure class="morning">
-      <div class="image-stage" data-dream-reveal>
-        <img class="dream-image" src="images/sf-sunset-fantasy.png" alt="" width="1086" height="1448" aria-hidden="true">
-        <img class="reality-image" src="images/sf-sunset.jpg" alt="A quiet sunset view of the San Francisco skyline across the bay, with a bird over the water and a rocky shoreline in the foreground" width="1086" height="1448" fetchpriority="high">
-        <canvas class="dream-reveal" aria-hidden="true"></canvas>
-        <span class="ghost-cursor" aria-hidden="true"></span>
-      </div>
-    </figure>
 
-    <article class="about" aria-labelledby="page-title">
-      <h1 id="page-title" class="transition-heading">hi! i'm tony wang</h1>
+
+    <article class="about" aria-label="About Tony Wang">
 
       <p>
         i'm a coterm at stanford studying cs (systems + ai) and psychology.
@@ -96,13 +90,7 @@
         <a href="mailto:wangtony@stanford.edu">wangtony@stanford.edu</a>
       </p>
 
-      <section class="github-activity" aria-label="GitHub contribution activity">
-        <a class="github-chart-link" href="https://github.com/tonywangs" target="_blank" rel="noopener noreferrer" aria-label="Tony Wang's GitHub contribution activity">
-          <span class="github-chart-scroll">
-            <img class="github-chart" src="https://ghchart.rshah.org/555e79/tonywangs" alt="Tony Wang's GitHub contribution chart" width="663" height="104" loading="lazy">
-          </span>
-        </a>
-      </section>
+
 
       <nav class="elsewhere" aria-label="Find Tony elsewhere">
         <a href="https://github.com/tonywangs">github</a><span aria-hidden="true">·</span>
@@ -116,6 +104,23 @@
         </button>
       </nav>
     </article>
+
+    <figure class="morning">
+      <div class="image-stage" data-dream-reveal>
+        <img class="dream-image" src="images/sf-sunset-fantasy.png" alt="" width="1086" height="1448" aria-hidden="true">
+        <img class="reality-image" src="images/sf-sunset.jpg" alt="A quiet sunset view of the San Francisco skyline across the bay, with a bird over the water and a rocky shoreline in the foreground" width="1086" height="1448" fetchpriority="high">
+        <canvas class="dream-reveal" aria-hidden="true"></canvas>
+        <span class="ghost-cursor" aria-hidden="true"></span>
+      </div>
+    </figure>
+
+      <section class="github-activity" aria-label="GitHub contribution activity">
+        <a class="github-chart-link" href="https://github.com/tonywangs" target="_blank" rel="noopener noreferrer" aria-label="Tony Wang's GitHub contribution activity">
+          <span class="github-chart-scroll">
+            <img class="github-chart" src="https://ghchart.rshah.org/555e79/tonywangs" alt="Tony Wang's GitHub contribution chart" width="663" height="104" loading="lazy">
+          </span>
+        </a>
+      </section>
 
   </main>
 </body>

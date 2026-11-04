@@ -14,10 +14,10 @@
   --paper: #111418;
   --ink: #edf0f4;
   --muted: #a3abb6;
-  --link: #8ebdb2;
-  --link-hover: #b9ded4;
+  --link: #aabbd0;
+  --link-hover: #d2deec;
   --rule: #2b323c;
-  --accent-wash: #1a2828;
+  --accent-wash: #202631;
 }
 
 * { box-sizing: border-box; }
@@ -49,7 +49,7 @@ body {
 }
 
 :root[data-theme="dark"] ::selection {
-  background: #34544f;
+  background: #384456;
   color: #f7f9fc;
 }
 
@@ -133,9 +133,9 @@ a:focus-visible {
 .morning {
   grid-column: 2;
   grid-row: 1;
-  width: min(90%, 420px);
+  width: min(80%, 370px);
   justify-self: end;
-  margin: 0;
+  margin: 48px 0 0;
 }
 
 .image-stage {
@@ -293,9 +293,9 @@ h1 {
 
 .chart-filters { position: absolute; }
 .empty-day-color { flood-color: #d9dde5; }
-:root[data-theme="dark"] .empty-day-color { flood-color: #252c2d; }
+:root[data-theme="dark"] .empty-day-color { flood-color: #282e37; }
 :root[data-theme="dark"] .github-chart {
-  filter: url(#quiet-empty-days) hue-rotate(-61deg) saturate(1.45) brightness(0.88);
+  filter: url(#quiet-empty-days) saturate(0.35) brightness(1.35);
 }
 
 .elsewhere {
@@ -316,6 +316,23 @@ h1 {
 .elsewhere a:hover { color: var(--link); }
 .elsewhere span { color: #b1b6bf; }
 
+
+/* Words reveal one continuous sunset across the whole article. */
+.sunset-word { display: inline-block; }
+:root[data-theme="dark"] .about .sunset-word {
+  background-image: linear-gradient(160deg,
+    #edb183 0%, #d6a6a3 23%, #b8aac3 46%, #9fb4ce 68%, #aab7c5 100%);
+  background-size: var(--sunset-size);
+  background-position: var(--sunset-position);
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+:root[data-theme="dark"] .about a:hover .sunset-word {
+  color: #e4d6cf;
+}
+:root[data-theme="dark"] .stanford li::marker { color: #b2aec5; }
 
 @media (prefers-reduced-motion: no-preference) {
   .morning { animation: settle-in 660ms 40ms both cubic-bezier(0.2, 0.7, 0.2, 1); }
@@ -356,7 +373,8 @@ h1 {
   }
 
   .morning {
-    width: 100%;
+    width: min(88%, 370px);
+    margin: 20px auto 0;
   }
 
 
@@ -388,4 +406,50 @@ h1 {
     transition-duration: 0.01ms !important;
   }
 
+}
+
+/* One aligned composition: text and panorama, beside a vertical calendar. */
+.page {
+  grid-template-columns: minmax(0, 650px) 120px;
+  width: min(calc(100% - 72px), 826px);
+  column-gap: 56px;
+  row-gap: 32px;
+}
+.morning {
+  grid-column: 1;
+  grid-row: 2;
+  width: 100%;
+  margin: 0;
+}
+.morning .image-stage { aspect-ratio: 3 / 1; }
+.morning .reality-image, .morning .dream-image { object-position: center 25%; }
+.github-activity {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: stretch;
+  position: relative;
+  width: 100%;
+  margin: 0;
+}
+.github-chart-link { position: absolute; inset: 0; overflow: visible; }
+.github-chart-scroll {
+  position: absolute;
+  top: 0;
+  left: calc(50% + var(--rail-length, 700px) * 104 / 663 / 2);
+  width: var(--rail-length, 700px);
+  height: auto;
+  overflow: visible;
+  transform: rotate(90deg);
+  transform-origin: top left;
+}
+.github-chart { width: 100%; min-width: 0; height: auto; }
+@media (max-width: 880px) {
+  .page { display: grid; grid-template-columns: minmax(0, 1fr) 96px; column-gap: 28px; }
+  .about { margin-top: 0; }
+}
+@media (max-width: 600px) {
+  .page { width: calc(100% - 32px); grid-template-columns: minmax(0, 1fr) 48px; column-gap: 16px; row-gap: 24px; }
+  .about { grid-column: 1 / -1; }
+  .morning { grid-column: 1 / -1; }
+  .github-activity { grid-column: 1 / -1; grid-row: 3; height: 320px; width: 52px; justify-self: end; }
 }

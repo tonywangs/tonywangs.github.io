@@ -66,7 +66,7 @@
     const cropWidth = targetWidth / scale;
     const cropHeight = targetHeight / scale;
     const sourceX = Math.max(0, (sourceWidth - cropWidth) * 0.5);
-    const sourceY = Math.max(0, (sourceHeight - cropHeight) * 0.48);
+    const sourceY = Math.max(0, (sourceHeight - cropHeight) * 0.25);
 
     context.drawImage(
       image,
