@@ -2,10 +2,10 @@
   --paper: #fefefe;
   --ink: #17191d;
   --muted: #6d727b;
-  --link: #2563eb;
-  --link-hover: #1746b5;
+  --link: #87523e;
+  --link-hover: #663724;
   --rule: #e7ebf1;
-  --blue-wash: #f5f8ff;
+  --accent-wash: #faf3ee;
   --sans: Arial, Helvetica, sans-serif;
 }
 
@@ -14,10 +14,10 @@
   --paper: #111418;
   --ink: #edf0f4;
   --muted: #a3abb6;
-  --link: #8db4ff;
-  --link-hover: #b9d0ff;
+  --link: #d2a18b;
+  --link-hover: #edc3ad;
   --rule: #2b323c;
-  --blue-wash: #172235;
+  --accent-wash: #261e1b;
 }
 
 * { box-sizing: border-box; }
@@ -44,12 +44,12 @@ body {
 }
 
 ::selection {
-  background: #dbe7ff;
+  background: #eedacf;
   color: #111;
 }
 
 :root[data-theme="dark"] ::selection {
-  background: #2e4b78;
+  background: #694637;
   color: #f7f9fc;
 }
 
@@ -259,7 +259,7 @@ h1 {
   transition: transform 160ms ease;
 }
 
-.stanford li::marker { color: #9ab7ec; }
+.stanford li::marker { color: var(--link); }
 .stanford li:hover { transform: translateX(2px); }
 
 .github-activity {
@@ -292,8 +292,8 @@ h1 {
 }
 
 .chart-filters { position: absolute; }
-.empty-day-color { flood-color: #d8dde5; }
-:root[data-theme="dark"] .empty-day-color { flood-color: #303945; }
+.empty-day-color { flood-color: #ddd5cf; }
+:root[data-theme="dark"] .empty-day-color { flood-color: #302b29; }
 
 .elsewhere {
   display: flex;

@@ -3,10 +3,10 @@
   --paper: #fefefe;
   --ink: #17191d;
   --muted: #6d727b;
-  --link: #2563eb;
-  --link-hover: #1746b5;
+  --link: #87523e;
+  --link-hover: #663724;
   --rule: #e7ebf1;
-  --blue-wash: #f5f8ff;
+  --accent-wash: #faf3ee;
   --soft-shadow: 0 16px 36px -30px rgba(24, 39, 72, 0.55);
   --sans: Arial, Helvetica, sans-serif;
 }
@@ -16,10 +16,10 @@
   --paper: #111418;
   --ink: #edf0f4;
   --muted: #a3abb6;
-  --link: #8db4ff;
-  --link-hover: #b9d0ff;
+  --link: #d2a18b;
+  --link-hover: #edc3ad;
   --rule: #2b323c;
-  --blue-wash: #172235;
+  --accent-wash: #261e1b;
   --soft-shadow: 0 16px 36px -30px rgba(0, 0, 0, 0.72);
 }
 
@@ -275,7 +275,7 @@ a:focus-visible {
 #writingList > p:not(:has(> i:only-child)):hover,
 #readingList > p:not(:has(> b:only-child)):hover {
   border-color: transparent;
-  background: var(--blue-wash);
+  background: var(--accent-wash);
   transform: translateX(3px);
 }
 
@@ -420,7 +420,7 @@ a:focus-visible {
   width: min(100%, 760px);
   height: auto;
   margin-top: 20px;
-  background: var(--blue-wash);
+  background: var(--accent-wash);
   outline: 1px solid color-mix(in srgb, var(--rule) 88%, transparent);
   outline-offset: -1px;
   transition: box-shadow 220ms ease, opacity 220ms ease, outline-color 220ms ease, transform 220ms ease;
