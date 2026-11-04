@@ -334,28 +334,35 @@ h1 {
 }
 :root[data-theme="dark"] .stanford li::marker { color: #b2aec5; }
 
+/* Text resolves first, then the two image planes wipe into place. */
 @media (prefers-reduced-motion: no-preference) {
-  .morning { animation: settle-in 660ms 40ms both cubic-bezier(0.2, 0.7, 0.2, 1); }
-
-  .about > * { animation: rise-in 520ms both cubic-bezier(0.2, 0.7, 0.2, 1); }
-  .about > :nth-child(1) { animation-delay: 70ms; }
+  .about > * {
+    animation: text-resolve 540ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .about > :nth-child(1) { animation-delay: 40ms; }
   .about > :nth-child(2) { animation-delay: 115ms; }
-  .about > :nth-child(3) { animation-delay: 160ms; }
-  .about > :nth-child(4) { animation-delay: 205ms; }
-  .about > :nth-child(5) { animation-delay: 250ms; }
-  .about > :nth-child(6) { animation-delay: 295ms; }
-  .about > :nth-child(7) { animation-delay: 340ms; }
-
+  .about > :nth-child(3) { animation-delay: 190ms; }
+  .about > :nth-child(4) { animation-delay: 265ms; }
+  .about > :nth-child(5) { animation-delay: 340ms; }
+  .morning {
+    animation: panorama-unveil 380ms 900ms cubic-bezier(0.76, 0, 0.24, 1) both;
+  }
+  .github-activity {
+    animation: calendar-unveil 300ms 1280ms cubic-bezier(0.76, 0, 0.24, 1) both;
+  }
 }
-
-@keyframes rise-in {
-  from { opacity: 0; transform: translateY(7px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes text-resolve {
+  from { opacity: 0; filter: blur(7px); transform: translateY(5px); }
+  55% { opacity: 1; }
+  to { opacity: 1; filter: blur(0); transform: none; }
 }
-
-@keyframes settle-in {
-  from { opacity: 0; transform: translateY(8px) scale(0.995); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+@keyframes panorama-unveil {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes calendar-unveil {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 0 0); }
 }
 
 @media (max-width: 880px) {
@@ -453,3 +460,5 @@ h1 {
   .morning { grid-column: 1 / -1; }
   .github-activity { grid-column: 1 / -1; grid-row: 3; height: 320px; width: 52px; justify-self: end; }
 }
+
+.contribution-watercolor { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
