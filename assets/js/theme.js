@@ -25,15 +25,22 @@
 
   applyTheme(initialTheme);
 
+  let fadeCleanup;
+
   const bindToggles = () => {
     applyTheme(root.dataset.theme);
     document.querySelectorAll(".theme-toggle").forEach((button) => {
       updateToggle(button, root.dataset.theme);
       button.addEventListener("click", () => {
         const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
+        clearTimeout(fadeCleanup);
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          root.classList.add('theme-fading');
+        }
         localStorage.setItem(storageKey, nextTheme);
         applyTheme(nextTheme);
-        document.querySelectorAll(".theme-toggle").forEach((toggle) => updateToggle(toggle, nextTheme));
+        document.querySelectorAll('.theme-toggle').forEach(toggle => updateToggle(toggle, nextTheme));
+        fadeCleanup = setTimeout(() => root.classList.remove('theme-fading'), 240);
       });
     });
   };

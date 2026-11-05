@@ -103,3 +103,14 @@ html.page-arriving .transition-heading::after {
     display: none;
   }
 }
+
+/* A short palette fade; the toggle remains immediately responsive. */
+@media (prefers-reduced-motion: no-preference) {
+  html.theme-fading, html.theme-fading body {
+    transition: background-color 220ms ease-out, color 220ms ease-out;
+  }
+  html.theme-fading .about, html.theme-fading .stanford,
+  html.theme-fading h2, html.theme-fading .theme-toggle {
+    transition: color 220ms ease-out, border-color 220ms ease-out;
+  }
+}
