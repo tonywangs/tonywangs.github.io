@@ -7,7 +7,7 @@
   const update = () => {
     const scale = innerWidth > 600 && innerWidth <= 880 ? Math.min(1, (document.documentElement.clientWidth - 32) / 826) : 1;
     page.style.setProperty('--composition-scale', scale);
-    rail.style.setProperty('--rail-length', `${rail.clientHeight}px`);
+    rail.style.setProperty('--rail-length', `${innerWidth <= 600 ? Math.min(rail.clientHeight, rail.clientWidth * 663 / 104) : rail.clientHeight}px`);
     const bounds = page.getBoundingClientRect();
     const about = document.querySelector('.about').getBoundingClientRect();
     const photo = document.querySelector('.morning').getBoundingClientRect();
