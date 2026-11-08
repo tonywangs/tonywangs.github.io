@@ -489,3 +489,10 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .calligraphy-signature.use-poster video { display: none; }
 .calligraphy-signature.use-poster .calligraphy-poster-fallback { display: block; }
 :root[data-theme="dark"] .calligraphy-poster-fallback { visibility: hidden; }
+
+.calligraphy-svg { display: block; width: 100%; height: auto; }
+.signature-ink { fill: var(--ink); }
+:root[data-theme="dark"] .signature-ink { fill: url(#signature-sunset); }
+
+.signature-stroke { fill: var(--ink); }
+:root[data-theme="dark"] .signature-stroke { fill: var(--stroke-gradient); }
