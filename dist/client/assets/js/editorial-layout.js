@@ -5,17 +5,19 @@
   if (!page || !rail || !art) return;
   const paths = [...art.querySelectorAll('path')];
   const update = () => {
+    const scale = innerWidth <= 880 ? Math.min(1, (document.documentElement.clientWidth - 32) / 826) : 1;
+    page.style.setProperty('--composition-scale', scale);
     rail.style.setProperty('--rail-length', `${rail.clientHeight}px`);
     const bounds = page.getBoundingClientRect();
     const about = document.querySelector('.about').getBoundingClientRect();
     const photo = document.querySelector('.morning').getBoundingClientRect();
     const calendar = rail.getBoundingClientRect();
-    const mobile = innerWidth <= 600;
-    const top = about.top - bounds.top - 24;
-    const bottom = photo.bottom - bounds.top + 22;
-    const divider = (photo.right + calendar.left) / 2 - bounds.left;
-    const w = bounds.width;
-    art.setAttribute('viewBox', `0 0 ${w} ${bounds.height}`);
+    const mobile = false;
+    const top = (about.top - bounds.top) / scale - 24;
+    const bottom = (photo.bottom - bounds.top) / scale + 22;
+    const divider = ((photo.right + calendar.left) / 2 - bounds.left) / scale;
+    const w = bounds.width / scale;
+    art.setAttribute('viewBox', `0 0 ${w} ${bounds.height / scale}`);
     const shapes = mobile ? [
       `M0 ${top} H${w * 0.68}`,
       `M16 ${top - 9} V${top + 10}`,
@@ -33,6 +35,7 @@
   };
   new ResizeObserver(update).observe(page);
   new ResizeObserver(update).observe(rail);
+  window.addEventListener("resize", update);
   document.fonts.ready.then(update);
   update();
 })();
