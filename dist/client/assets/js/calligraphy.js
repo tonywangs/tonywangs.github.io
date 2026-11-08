@@ -10,12 +10,30 @@
   signature.append(canvas);
   const poster = new Image();
   poster.src = video.poster;
+  let usePoster = false;
+  let checkedAlpha = false;
   const draw = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.globalCompositeOperation = 'source-over';
-    const source = video.readyState >= 2 ? video : poster;
+    let source = !usePoster && video.readyState >= 2 ? video : poster;
     if (source === poster && !poster.naturalWidth) return;
     ctx.drawImage(source, 0, 0, canvas.width, canvas.height);
+    if (source === video && !checkedAlpha) {
+      try {
+        checkedAlpha = true;
+        if (ctx.getImageData(0, 0, 1, 1).data[3] > 240) {
+          usePoster = true;
+          signature.classList.add('use-poster');
+          poster.className = 'calligraphy-poster-fallback';
+          poster.alt = '';
+          signature.append(poster);
+          video.pause();
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          if (!poster.naturalWidth) return;
+          ctx.drawImage(poster, 0, 0, canvas.width, canvas.height);
+        }
+      } catch { /* Local-file previews may restrict pixel inspection. */ }
+    }
     ctx.globalCompositeOperation = 'source-in';
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
     [[0, '#edb183'], [0.23, '#d6a6a3'], [0.46, '#b8aac3'], [0.68, '#9fb4ce'], [1, '#aab7c5']]
@@ -28,7 +46,7 @@
   video.addEventListener('seeked', draw);
   video.addEventListener('ended', draw);
   if ('requestVideoFrameCallback' in video) {
-    const frame = () => { draw(); video.requestVideoFrameCallback(frame); };
+    const frame = () => { draw(); if (!usePoster) video.requestVideoFrameCallback(frame); };
     video.requestVideoFrameCallback(frame);
   } else {
     let frameId;

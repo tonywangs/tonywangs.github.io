@@ -5,7 +5,7 @@
   if (!page || !rail || !art) return;
   const paths = [...art.querySelectorAll('path')];
   const update = () => {
-    const scale = innerWidth <= 880 ? Math.min(1, (document.documentElement.clientWidth - 32) / 826) : 1;
+    const scale = innerWidth > 600 && innerWidth <= 880 ? Math.min(1, (document.documentElement.clientWidth - 32) / 826) : 1;
     page.style.setProperty('--composition-scale', scale);
     rail.style.setProperty('--rail-length', `${rail.clientHeight}px`);
     const bounds = page.getBoundingClientRect();
