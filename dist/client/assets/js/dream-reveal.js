@@ -411,7 +411,7 @@
   };
 
   const syncCanvas = () => {
-    if (!reality.complete || !reality.naturalWidth || !dream.complete) {
+    if (!reality.complete || !reality.naturalWidth || !dream.complete || !dream.naturalWidth) {
       return;
     }
 
