@@ -18,19 +18,42 @@
   <meta name="twitter:description" content="Computer science, psychology, investing, and a few projects.">
   <meta name="twitter:image" content="https://tonywang.xyz/images/tony-wang-og-v2.jpg">
 
+  <script>
+    document.documentElement.classList.add('media-loading');
+    document.addEventListener('DOMContentLoaded', async () => {
+      const photo = document.querySelector('.reality-image');
+      const grid = document.querySelector('.github-chart');
+      const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+      const ready = image => image.decode().then(() => true, () => false);
+      const photoReady = ready(photo);
+      const gridReady = ready(grid);
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      await wait(reduced ? 0 : 900);
+      if (await photoReady) {
+        document.documentElement.classList.add('photo-ready');
+        await wait(reduced ? 0 : 380);
+      } else {
+        document.documentElement.classList.add('photo-failed');
+      }
+      if (await gridReady) document.documentElement.classList.add('grid-ready');
+      else document.documentElement.classList.add('grid-failed');
+      window.dispatchEvent(new Event('primary-media-ready'));
+      window.primaryMediaReady = true;
+    });
+  </script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G‑EF518STZBY"></script>
-  <script src="assets/js/analytics.js"></script>
+  <script defer src="assets/js/analytics.js"></script>
   <script src="assets/js/theme.js?v=20261104-subtle-fade"></script>
   <script defer src="assets/js/link-targets.js?v=20261013-1"></script>
   <script defer src="assets/js/page-transitions.js?v=20261015-1"></script>
   <script defer src="assets/js/sunset-links.js?v=20261103-3"></script>
-  <script defer src="assets/js/dream-reveal.js?v=20261112-media"></script>
+  <script defer src="assets/js/dream-reveal.js?v=20261112-deferred"></script>
 
   <link rel="icon" href="images/teal-slash-favicon.png">
   <link rel="canonical" href="https://tonywang.xyz/">
   <link rel="preload" as="image" href="images/sf-sunset-original-v2.jpg" fetchpriority="high">
   <link rel="preload" as="image" href="images/github-contributions.svg">
-  <link rel="stylesheet" href="assets/css/v4.css?v=20261112-rectangular-switch">
+  <link rel="stylesheet" href="assets/css/v4.css?v=20261112-ready-media">
   <link rel="stylesheet" href="assets/css/transitions.css?v=20261104-subtle-fade">
   <title>Tony Wang</title>
   <script defer src="assets/js/editorial-layout.js?v=5"></script>
@@ -150,7 +173,7 @@
 
     <figure class="morning">
       <div class="image-stage" data-dream-reveal>
-        <img class="dream-image" src="images/sf-sunset-fantasy-v2.webp" alt="" width="1086" height="1448" aria-hidden="true">
+        <img class="dream-image" data-src="images/sf-sunset-fantasy-v2.webp" alt="" width="1086" height="1448" aria-hidden="true">
         <img class="reality-image" src="images/sf-sunset-original-v2.jpg" alt="A quiet sunset view of the San Francisco skyline across the bay, with a bird over the water and a rocky shoreline in the foreground" width="1086" height="1448" fetchpriority="high">
         <canvas class="dream-reveal" aria-hidden="true"></canvas>
         <span class="ghost-cursor" aria-hidden="true"></span>

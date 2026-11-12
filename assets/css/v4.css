@@ -604,3 +604,19 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   border-color: var(--muted);
 }
 .theme-switch[aria-pressed="true"] .theme-switch-tab { transform: translateY(19px); }
+
+/* Reveal only fully decoded media, never partially downloaded pixels. */
+.media-loading .morning,
+.media-loading .github-activity { visibility: hidden; animation: none; }
+.media-loading.photo-ready .morning,
+.media-loading.grid-ready .github-activity { visibility: visible; }
+.media-loading.photo-failed .morning,
+.media-loading.grid-failed .github-activity { visibility: visible; }
+@media (prefers-reduced-motion: no-preference) {
+  .media-loading.photo-ready .morning {
+    animation: panorama-unveil 380ms cubic-bezier(.76,0,.24,1) both;
+  }
+  .media-loading.grid-ready .github-activity {
+    animation: calendar-unveil 300ms cubic-bezier(.76,0,.24,1) both;
+  }
+}

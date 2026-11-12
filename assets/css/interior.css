@@ -558,3 +558,21 @@ a:focus-visible {
     transform: none;
   }
 }
+
+.projects-heading-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 28px;
+}
+.projects-heading-row .page-heading { margin: 0; }
+.art-direction-aside {
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.art-direction-aside span { color: var(--muted); }
+.art-direction-aside:hover { text-decoration: underline; text-underline-offset: 4px; }

@@ -505,8 +505,13 @@
   const resizeObserver = new ResizeObserver(syncCanvas);
   resizeObserver.observe(reality);
 
-  Promise.all([
-    reality.decode().catch(() => {}),
-    dream.decode().catch(() => {}),
-  ]).finally(syncCanvas);
+  // The hidden artwork must not compete with the entrance images.
+  const loadArtwork = () => {
+    dream.src = dream.dataset.src;
+    Promise.all([reality.decode(), dream.decode()]).then(syncCanvas).catch(() => {
+      // Leave the original photograph visible if the artwork cannot load.
+    });
+  };
+  if (window.primaryMediaReady) loadArtwork();
+  else window.addEventListener("primary-media-ready", loadArtwork, { once: true });
 })();
